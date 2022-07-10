@@ -1,0 +1,5 @@
+*.eep
+*.hex
+*.lss
+*.map
+/firmware/dep/*
