@@ -4,3 +4,4 @@
 *.map
 /firmware/dep/*
 *.o
+ComponentTester
