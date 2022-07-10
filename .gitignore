@@ -3,3 +3,4 @@
 *.lss
 *.map
 /firmware/dep/*
+*.o
