@@ -2,13 +2,15 @@
  *
  *   global configuration, setup and settings
  *
- *   (c) 2012-2021 by Markus Reschke
+ *   (c) 2012-2022 by Markus Reschke
  *   based on code from Markus Frejek and Karl-Heinz K�bbeler
  *
  * ************************************************************************ */
 
+
 /* source management */
 #define CONFIG_H
+
 
 /*
  *  For MCU specific settings (port and pin assignments) and display
@@ -18,9 +20,12 @@
  *  - ATmega640/1280/2560:  config_1280.h
  */
 
+
+
 /* ************************************************************************
  *   Hardware options
  * ************************************************************************ */
+
 
 /*
  *  rotary encoder for user interface
@@ -33,6 +38,7 @@
 
 //#define HW_ENCODER
 
+
 /*
  *  Number of Gray code pulses per step or detent for the rotary encoder
  *  - typical values: 2 or 4, rarely 1
@@ -40,18 +46,20 @@
  *  - adjust value to match your rotary encoder
  */
 
-#define ENCODER_PULSES 4
+#define ENCODER_PULSES   4
+
 
 /*
  *  Number of detents or steps
  *  - this is used by the detection of the rotary encoder's turning velocity
  *  - it doesn't have to match exactly and also allows you to finetune the
  *    the feedback (higher: slow down, lower: speed up)
- *  - typical values: 20, 24 or 30
+ *  - typical values: 20, 24 or 30 
  *  - adjust value to match your rotary encoder
  */
 
-#define ENCODER_STEPS 24
+#define ENCODER_STEPS    24
+
 
 /*
  *  increase/decrease push buttons for user interface
@@ -61,6 +69,7 @@
  */
 
 //#define HW_INCDEC_KEYS
+
 
 /*
  *  2.5V voltage reference for Vcc check
@@ -73,13 +82,15 @@
 
 //#define HW_REF25
 
+
 /*
  *  Typical voltage of 2.5V voltage reference (in mV)
  *  - see datasheet of the voltage reference
  *  - or use >= 5.5 digit DMM to measure the voltage
  */
 
-#define UREF_25 2495
+#define UREF_25           2495
+
 
 /*
  *  Probe protection relay for discharging caps
@@ -92,6 +103,7 @@
 
 //#define HW_DISCHARGE_RELAY
 
+
 /*
  *  Zener check / voltage measurement up to 50V DC
  *  - default pin: PC3 (ATmega 328)
@@ -103,17 +115,19 @@
 
 //#define HW_ZENER
 
+
 /*
  *  non-standard voltage divider for Zener check
- *  - standard voltage divider is 10:1
+ *  - standard voltage divider is 10:1 
  *  - ZENER_R1: top resistor in Ohms
  *  - ZENER_R2: bottom resistor in Ohms
  *  - uncomment to enable and adjust resistor values
  */
 
 //#define ZENER_DIVIDER_CUSTOM
-#define ZENER_R1 180000
-#define ZENER_R2 20000
+#define ZENER_R1         180000
+#define ZENER_R2         20000
+
 
 /*
  *  alternative mode for Zener check: don't switch boost converter
@@ -123,6 +137,7 @@
  */
 
 //#define ZENER_UNSWITCHED
+
 
 /*
  *  Zener check during normal probing
@@ -134,8 +149,9 @@
  */
 
 //#define HW_PROBE_ZENER
-#define ZENER_VOLTAGE_MIN 1000  /* min. voltage in mV */
-#define ZENER_VOLTAGE_MAX 30000 /* max. voltage in mV */
+#define ZENER_VOLTAGE_MIN     1000      /* min. voltage in mV */
+#define ZENER_VOLTAGE_MAX     30000     /* max. voltage in mV */
+
 
 /*
  *  fixed signal output
@@ -145,6 +161,7 @@
  */
 
 //#define HW_FIXED_SIGNAL_OUTPUT
+
 
 /*
  *  basic frequency counter
@@ -156,6 +173,7 @@
  */
 
 //#define HW_FREQ_COUNTER_BASIC
+
 
 /*
  *  extended frequency counter
@@ -170,20 +188,22 @@
  */
 
 //#define HW_FREQ_COUNTER_EXT
-#define FREQ_COUNTER_PRESCALER 16 /* 16:1 */
+#define FREQ_COUNTER_PRESCALER     16   /* 16:1 */
 //#define FREQ_COUNTER_PRESCALER     32   /* 32:1 */
+
 
 /*
  *  ring tester (LOPT/FBT tester)
  *  - uses T0 directly as counter input
  *  - uncomment to enable
  *  - select the pulse output: either dedicated pin or probes
- *  - see RINGTESTER_PORT in config-<MCU>.h for dedicated pin
+ *  - see RINGTESTER_PORT in config-<MCU>.h for dedicated pin 
  */
 
 //#define HW_RING_TESTER
-#define RING_TESTER_PIN /* dedicated pin */
+#define RING_TESTER_PIN                 /* dedicated pin */
 //#define RING_TESTER_PROBES              /* probes */
+
 
 /*
  *  event counter
@@ -198,6 +218,7 @@
 
 //#define HW_EVENT_COUNTER
 
+
 /*
  *  trigger output for event counter
  *  - uses probe #2 as trigger output, probes #1 and #3 are Gnd
@@ -206,6 +227,7 @@
  */
 
 //#define EVENT_COUNTER_TRIGGER_OUT
+
 
 /*
  *  IR remote control detection/decoder (via dedicated MCU pin)
@@ -218,6 +240,7 @@
 
 //#define HW_IR_RECEIVER
 
+
 /*
  *  fixed cap for self-adjustment
  *  - see TP_CAP and ADJUST_PORT in config-<MCU>.h for port pins
@@ -225,6 +248,7 @@
  */
 
 //#define HW_ADJUST_CAP
+
 
 /*
  *  L/C meter hardware option
@@ -235,21 +259,24 @@
 
 //#define HW_LC_METER
 
+
 /*
  *  L/C meter: value of reference capacitor C_p (in 0.1 pF)
  *  - should be around 1000pF
  */
 
-#define LC_METER_C_REF 10000
+#define LC_METER_C_REF        10000
+
 
 /*
  *  L/C meter: also display frequency of LC oscillator
- *  - helps to spot the oscillator's frequency drifting
+ *  - helps to spot the oscillator's frequency drifting 
  *  - requires display with more than two text lines
  *  - uncomment to enable
  */
 
 //#define LC_METER_SHOW_FREQ
+
 
 /*
  *  relay for parallel cap (sampling ADC)
@@ -257,6 +284,7 @@
  */
 
 //#define HW_CAP_RELAY
+
 
 /*
  *  Logic Probe
@@ -270,8 +298,9 @@
  */
 
 //#define HW_LOGIC_PROBE
-#define LOGIC_PROBE_R1 10000
-#define LOGIC_PROBE_R2 3300
+#define LOGIC_PROBE_R1        10000
+#define LOGIC_PROBE_R2        3300
+
 
 /*
  *  Buzzer
@@ -280,6 +309,7 @@
  */
 
 //#define HW_BUZZER
+
 
 /*
  *  MAX6675 thermocouple converter
@@ -290,6 +320,7 @@
 
 //#define HW_MAX6675
 
+
 /*
  *  MAX31855 thermocouple converter
  *  - see MAX31855_CS in config_<MCU>.h for dedicated port pin
@@ -299,9 +330,12 @@
 
 //#define HW_MAX31855
 
+
+
 /* ************************************************************************
  *   software options
  * ************************************************************************ */
+
 
 /*
  *  PWM generator with simple user interface
@@ -310,6 +344,7 @@
  */
 
 #define SW_PWM_SIMPLE
+
 
 /*
  *  PWM generator with fancy user interface
@@ -320,6 +355,7 @@
 
 //#define SW_PWM_PLUS
 
+
 /*
  *  PWM generator: show also pulse duration
  *  - duration based on timer's resolution
@@ -328,12 +364,14 @@
 
 //#define PWM_SHOW_DURATION
 
+
 /*
  *  Inductance measurement
  *  - uncomment to enable
  */
 
 #define SW_INDUCTOR
+
 
 /*
  *  ESR measurement
@@ -345,6 +383,7 @@
 #define SW_ESR
 //#define SW_OLD_ESR
 
+
 /*
  *  ESR Tool (in-circuit ESR measurement)
  *  - requires SW_ESR or SW_OLD_ESR to be enabled
@@ -353,12 +392,14 @@
 
 //#define SW_ESR_TOOL
 
+
 /*
  *  check for rotary encoders
  *  - uncomment to enable
  */
 
 //#define SW_ENCODER
+
 
 /*
  *  squarewave signal generator
@@ -369,6 +410,7 @@
 
 // #define SW_SQUAREWAVE
 
+
 /*
  *  IR remote control detection/decoder (via probes)
  *  - requires IR receiver module, e.g. TSOP series
@@ -377,6 +419,7 @@
  */
 
 // #define SW_IR_RECEIVER
+
 
 /*
  *  current limiting resistor for IR receiver module
@@ -387,6 +430,7 @@
 
 //#define SW_IR_DISABLE_RESISTOR
 
+
 /*
  *  additional protocols for IR remote control detection/decoder
  *  - uncommon protocols which will increase flash memory usage ;)
@@ -394,6 +438,7 @@
  */
 
 //#define SW_IR_RX_EXTRA
+
 
 /*
  *  IR remote control sender
@@ -405,6 +450,7 @@
 
 //#define SW_IR_TRANSMITTER
 
+
 /*
  *  Alternative delay loop for IR remote control sender
  *  - in case the the C compiler screws up the default delay loop
@@ -414,6 +460,7 @@
 
 //#define SW_IR_TX_ALTDELAY
 
+
 /*
  *  additional protocols for IR remote control sender
  *  - uncommon protocols which will increase flash memory usage ;)
@@ -422,12 +469,14 @@
 
 //#define SW_IR_TX_EXTRA
 
+
 /*
  *  check for opto couplers
  *  - uncomment to enable
  */
 
 #define SW_OPTO_COUPLER
+
 
 /*
  *  check for Unijunction Transistor
@@ -436,12 +485,14 @@
 
 #define SW_UJT
 
+
 /*
  *  check for Schottky Transistor (Schottky-clamped BJT)
  *  - uncomment to enable
  */
 
 #define SW_SCHOTTKY_BJT
+
 
 /*
  *  Servo Check
@@ -452,13 +503,15 @@
 
 //#define SW_SERVO
 
+
 /*
- *  DS18B20 - OneWire temperature sensor
+ *  DS18B20 - OneWire temperature sensor 
  *  - uncomment to enable
  *  - also enable ONEWIRE_PROBES or ONEWIRE_IO_PIN (see section 'Busses')
  */
 
 //#define SW_DS18B20
+
 
 /*
  *  OneWire: read and display ROM code
@@ -469,6 +522,7 @@
 
 //#define ONEWIRE_READ_ROM
 
+
 /*
  *  scan OneWire bus for devices and list their ROM codes
  *  - requires display with more than 2 text lines
@@ -478,13 +532,15 @@
 
 //#define SW_ONEWIRE_SCAN
 
+
 /*
  *  capacitor leakage check
  *  - requires display with more than two lines
  *  - uncomment to enable
  */
 
-// #define SW_CAP_LEAKAGE
+//#define SW_CAP_LEAKAGE
+
 
 /*
  *  display reverse hFE for BJTs
@@ -493,6 +549,7 @@
  */
 
 //#define SW_REVERSE_HFE
+
 
 /*
  *  display I_C/I_E test current for hFE measurement
@@ -503,6 +560,7 @@
 
 //#define SW_HFE_CURRENT
 
+
 /*
  *  R/C/L monitors
  *  - monitor passive components connected to probes #1 and #3
@@ -512,10 +570,11 @@
  */
 
 //#define SW_MONITOR_R          /* just R */
-// #define SW_MONITOR_C /* just C plus ESR */
+//#define SW_MONITOR_C          /* just C plus ESR */
 //#define SW_MONITOR_L          /* just L */
-// #define SW_MONITOR_RCL /* R plus L, or C plus ESR */
+//#define SW_MONITOR_RCL        /* R plus L, or C plus ESR */
 //#define SW_MONITOR_RL         /* R plus L */
+
 
 /*
  *  DHT11, DHT22 and compatible humidity & temperature sensors
@@ -524,12 +583,14 @@
 
 //#define SW_DHTXX
 
+
 /*
  *  display font for test purposes
  *  - uncomment to enable
  */
 
 //#define SW_FONT_TEST
+
 
 /*
  *  check resistor for matching E series norm value
@@ -546,6 +607,7 @@
 //#define SW_R_E96_CC           /* E96 1% tolerance, color-code */
 //#define SW_R_E96_EIA96        /* E96 1% tolerance, EIA-96 code */
 
+
 /*
  *  check capacitor for matching E series norm value
  *  - requires a display with more than 2 text lines
@@ -554,6 +616,7 @@
 
 //#define SW_C_E6_T             /* E6 20% tolerance, text */
 //#define SW_C_E12_T            /* E12 10% tolerance, text */
+
 
 /*
  *  check inductor for matching E series norm value
@@ -564,6 +627,7 @@
 //#define SW_L_E6_T             /* E6 20% tolerance, text */
 //#define SW_L_E12_T            /* E12 10% tolerance, text */
 
+
 /*
  *  continuity check
  *  - requires buzzer (HW_BUZZER)
@@ -572,9 +636,12 @@
 
 //#define SW_CONTINUITY_CHECK
 
+
+
 /* ************************************************************************
  *   workarounds for some testers
  * ************************************************************************ */
+
 
 /*
  *  Disable hFE measurement with common collector circuit and Rl as
@@ -588,9 +655,12 @@
 
 //#define NO_HFE_C_RL
 
+
+
 /* ************************************************************************
- *   workarounds for some IDEs
+ *   workarounds for some IDEs 
  * ************************************************************************ */
+
 
 /*
  *  Oscillator startup cycles (after wakeup from power-safe mode):
@@ -602,12 +672,15 @@
  */
 
 #ifndef OSC_STARTUP
-#define OSC_STARTUP 16384
+  #define OSC_STARTUP    16384
 #endif
+
+
 
 /* ************************************************************************
  *   user interface
  * ************************************************************************ */
+
 
 /*
  *  Language of user interface. Available languages:
@@ -637,12 +710,14 @@
 //#define UI_RUSSIAN_2
 //#define UI_SPANISH
 
+
 /*
  *  Use comma instead of dot to indicate a decimal fraction.
  *  - uncomment to enable
  */
 
 //#define UI_COMMA
+
 
 /*
  *  Display temperatures in Fahrenheit instead of Celsius.
@@ -651,12 +726,14 @@
 
 //#define UI_FAHRENHEIT
 
+
 /*
  *  Display hexadecimal values in uppercase instead of lowercase
  *  - uncomment to enable
  */
 
 //#define UI_HEX_UPPERCASE
+
 
 /*
  *  Set the default operation mode to auto-hold.
@@ -666,6 +743,7 @@
 
 #define UI_AUTOHOLD
 
+
 /*
  *  Trigger the menu also by a short circuit of all three probes.
  *  - former default behaviour
@@ -673,6 +751,7 @@
  */
 
 //#define UI_SHORT_CIRCUIT_MENU
+
 
 /*
  *  Show key hints instead of cursor if available.
@@ -684,6 +763,7 @@
 
 //#define UI_KEY_HINTS
 
+
 /*
  *  Enter menu to select adjustment profile after powering on.
  *  - uncomment to enable
@@ -691,12 +771,14 @@
 
 //#define UI_CHOOSE_PROFILE
 
+
 /*
  *  Add a third profile for adjustment values.
  *  - uncomment to enable
  */
 
 //#define UI_THREE_PROFILES
+
 
 /*
  *  Output components found also via TTL serial interface.
@@ -706,14 +788,16 @@
 
 //#define UI_SERIAL_COPY
 
+
 /*
  *  Control tester via TTL serial interface.
  *  - uncomment to enable
  *  - also enable SERIAL_BITBANG or SERIAL_HARDWARE, plus SERIAL_RW
- *    (see section 'Busses')
+ *    (see section 'Busses') 
  */
 
 //#define UI_SERIAL_COMMANDS
+
 
 /*
  *  Maximum time to wait after probing (in ms).
@@ -721,7 +805,8 @@
  *  - Time between printing the result and starting a new probing cycle.
  */
 
-#define CYCLE_DELAY 3000
+#define CYCLE_DELAY      3000
+
 
 /*
  *  Maximum number of probing runs without any component found in a row.
@@ -733,7 +818,8 @@
  *    until it's powered off manually.
  */
 
-#define CYCLE_MAX 5
+#define CYCLE_MAX        5
+
 
 /*
  *  Automatic power-off when no button is pressed for a while (in s).
@@ -743,14 +829,35 @@
 
 //#define POWER_OFF_TIMEOUT     60
 
+
 /*
  *  component symbols for fancy pinout
- *  - for 3-pin semiconductors
- *  - requires graphics display and symbol bitmap
+ *  - just for 3-pin semiconductors
+ *  - requires graphics display and symbol bitmaps (config_<MCU>.h)
  *  - uncomment to enable
  */
 
-// #define SW_SYMBOLS
+//#define SW_SYMBOLS
+
+
+/*
+ *  disable text based pinout
+ *  - just for 3-pin semiconductors
+ *  - requires component symbols (SW_SYMBOLS) to be enabled
+ *  - uncomment to enable
+ */
+
+//#define UI_NO_TEXTPINOUT
+
+
+/*
+ *  display probe IDs using reversed colors
+ *  - requires font with extra characters
+ *  - uncomment to enable
+ */
+
+//#define UI_PROBE_REVERSED
+
 
 /*
  *  color coding for probes
@@ -762,6 +869,7 @@
 
 #define UI_PROBE_COLORS
 
+
 /*
  *  colored titles
  *  - requires color graphics display
@@ -770,6 +878,7 @@
  */
 
 //#define UI_COLORED_TITLES
+
 
 /*
  *  colored cursor and key hints
@@ -780,6 +889,7 @@
 
 //#define UI_COLORED_CURSOR
 
+
 /*
  *  automatically exit main menu after running function/tool
  *  - uncomment to enable
@@ -787,12 +897,14 @@
 
 #define UI_MAINMENU_AUTOEXIT
 
+
 /*
  *  main menu: power off tester
  *  - uncomment to enable
  */
 
 //#define SW_POWER_OFF
+
 
 /*
  *  Round some values if appropriate.
@@ -803,24 +915,28 @@
 
 //#define UI_ROUND_DS18B20
 
+
 /*
  *  storage of firmware data (texts, tables etc)
  *  - self-adjustment data is always stored in EEPROM
  *  - fonts and symbols are always stored in Flash
  *  - uncomment one
- */
+ */ 
 
-#define DATA_EEPROM /* store data in EEPROM */
+#define DATA_EEPROM           /* store data in EEPROM */
 //#define DATA_FLASH            /* store data in Flash */
+
+
 
 /* ************************************************************************
  *   power management
  * ************************************************************************ */
 
+
 /*
  *  type of power switch
  *  - soft-latching power switch (default)
- *    - as in the tester's reference circuit
+ *    - as in the tester's reference circuit 
  *    - tester is able to power itself off
  *  - manual power switch
  *    - tester isn't able to power itself off
@@ -829,6 +945,7 @@
 
 #define POWER_SWITCH_SOFT
 //#define POWER_SWITCH_MANUAL
+
 
 /*
  *  Battery monitoring mode:
@@ -840,7 +957,8 @@
 
 #define BAT_NONE
 //#define BAT_DIRECT
-// #define BAT_DIVIDER
+//#define BAT_DIVIDER
+
 
 /*
  *  Unmonitored optional external power supply
@@ -854,6 +972,7 @@
 
 //#define BAT_EXT_UNMONITORED
 
+
 /*
  *  Voltage divider for battery monitoring
  *  - BAT_R1: top resistor in Ohms
@@ -861,8 +980,9 @@
  *  - standard values are: R1=10k, R2=3.3k
  */
 
-#define BAT_R1 10000
-#define BAT_R2 3300
+#define BAT_R1           10000
+#define BAT_R2           3300
+
 
 /*
  *  Voltage drop by reverse voltage protection diode and power management
@@ -870,9 +990,10 @@
  *  - or any other circuitry in the power section
  *  - Get your DMM and measure the voltage drop!
  *  - Schottky diode about 200mV / PNP BJT about 100mV.
- */
+ */  
 
-#define BAT_OFFSET 290
+#define BAT_OFFSET       290
+
 
 /*
  *  Battery weak voltage (in mV).
@@ -880,7 +1001,8 @@
  *  - Voltage drop BAT_OFFSET is considered in calculation.
  */
 
-#define BAT_WEAK 7400
+#define BAT_WEAK         7400
+
 
 /*
  *  Battery low voltage (in mV).
@@ -888,24 +1010,29 @@
  *  - Voltage drop BAT_OFFSET is considered in calculation.
  */
 
-#define BAT_LOW 6400
+#define BAT_LOW          6400 
+
 
 /*
  *  Enter sleep mode when idle to save power.
  *  - uncomment to enable
  */
 
-// #define SAVE_POWER
+//#define SAVE_POWER
+
+
 
 /* ************************************************************************
  *   measurement settings and offsets
  * ************************************************************************ */
 
+
 /*
- *  ADC voltage reference based on Vcc (in mV).
+ *  ADC voltage reference based on Vcc (in mV). 
  */
 
-#define UREF_VCC 5001
+#define UREF_VCC         5001
+
 
 /*
  * Offset for the internal bandgap voltage reference (in mV): -100 up to 100
@@ -915,7 +1042,8 @@
  *  - Will be added to measured voltage of bandgap reference.
  */
 
-#define UREF_OFFSET 0
+#define UREF_OFFSET      0
+
 
 /*
  *  Exact values of probe resistors.
@@ -924,19 +1052,21 @@
  */
 
 /* Rl in Ohms */
-#define R_LOW 680
+#define R_LOW            680
 
 /* Rh in Ohms */
-#define R_HIGH 470000
+#define R_HIGH           470000
+
 
 /*
- *  Offset for systematic error of resistor measurement with Rh (470k)
+ *  Offset for systematic error of resistor measurement with Rh (470k) 
  *  in Ohms.
  *  - if resistors >20k measure too high or low adjust the offset accordingly
  *  - standard offset is 350 Ohms
  */
 
-#define RH_OFFSET 350
+#define RH_OFFSET        350
+
 
 /*
  *  Resistance of probes (in 0.01 Ohms).
@@ -946,7 +1076,8 @@
  *  - will be updated by self-adjustment
  */
 
-#define R_ZERO 20
+#define R_ZERO           20
+
 
 /*
  *  Use probe pair specific resistance offsets instead of an
@@ -956,7 +1087,8 @@
 
 //#define R_MULTIOFFSET
 
-/*
+
+/* 
  *  Capacitance of probes (in pF).
  *  - default offset for MCU, PCB tracks and probe leads
  *  - Examples:
@@ -969,7 +1101,8 @@
  *  - will be updated by self-adjustment
  */
 
-#define C_ZERO 43
+#define C_ZERO           43
+
 
 /*
  *  Use probe pair specific capacitance offsets instead of an
@@ -979,12 +1112,14 @@
 
 //#define CAP_MULTIOFFSET
 
+
 /*
  *  Maximum voltage at which we consider a capacitor being
  *  discharged (in mV).
  */
 
-#define CAP_DISCHARGED 2
+#define CAP_DISCHARGED   2
+
 
 /*
  *  Correction factors for capacitors (in 0.1%)
@@ -995,16 +1130,18 @@
  *  - CAP_FACTOR_LARGE for caps > 47�F
  */
 
-#define CAP_FACTOR_SMALL 0   /* no correction */
-#define CAP_FACTOR_MID -40   /* -4.0% */
-#define CAP_FACTOR_LARGE -90 /* -9.0% */
+#define CAP_FACTOR_SMALL      0      /* no correction */ 
+#define CAP_FACTOR_MID        -40    /* -4.0% */
+#define CAP_FACTOR_LARGE      -90    /* -9.0% */
+
 
 /*
  *  Number of ADC samples to perform for each mesurement.
  *  - Valid values are in the range of 1 - 255.
  */
 
-#define ADC_SAMPLES 25
+#define ADC_SAMPLES      25
+
 
 /*
  *  100nF AREF buffer capacitor
@@ -1014,11 +1151,14 @@
  *  - uncomment to enable
  */
 
-#define ADC_LARGE_BUFFER_CAP
+//#define ADC_LARGE_BUFFER_CAP
+
+
 
 /* ************************************************************************
  *   R & D - meant for firmware developers
  * ************************************************************************ */
+
 
 /*
  *  Enable read functions for display module.
@@ -1027,6 +1167,7 @@
  */
 
 //#define LCD_READ
+
 
 /*
  *  Read ID of display controller.
@@ -1038,6 +1179,7 @@
 
 //#define SW_DISPLAY_ID
 
+
 /*
  *  Read registers of display controller and output them via TTL serial.
  *  - requires display read functions (LCD_READ) and
@@ -1047,45 +1189,55 @@
 
 //#define SW_DISPLAY_REG
 
+
+
 /* ************************************************************************
  *   MCU specific setup to support different AVRs
  * ************************************************************************ */
 
+
 /* MCU clock */
-#define CPU_FREQ F_CPU
+#define CPU_FREQ    F_CPU
+
 
 /*
  *  ATmega 328/328P
  */
 
 #if defined(__AVR_ATmega328__)
-#include "config_328.h"
+  #include "config_328.h"
+
 
 /*
  *  ATmega 324P/324PA/644/644P/644PA/1284/1284P
  */
 
 #elif defined(__AVR_ATmega324P__) || defined(__AVR_ATmega644__) || defined(__AVR_ATmega1284__)
-#include "config_644.h"
+  #include "config_644.h"
+
 
 /*
  *  ATmega 640/1280/2560
  */
 
 #elif defined(__AVR_ATmega640__) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
-#include "config_1280.h"
+  #include "config_1280.h"
+
 
 /*
  *  missing or unsupported MCU
  */
 
 #else
-#error <<< No or wrong MCU type selected! >>>
+  #error <<< No or wrong MCU type selected! >>>
 #endif
+
+
 
 /* ************************************************************************
  *   Busses
  * ************************************************************************ */
+
 
 /*
  *  I2C bus
@@ -1103,6 +1255,7 @@
 //#define I2C_FAST_MODE              /* 400kHz bus speed */
 //#define I2C_RW                     /* enable I2C read support (untested) */
 
+
 /*
  *  SPI bus
  *  - might be required by some hardware
@@ -1116,6 +1269,7 @@
 //#define SPI_HARDWARE               /* hardware SPI */
 //#define SPI_RW                     /* enable SPI read support */
 
+
 /*
  *  TTL serial interface
  *  - could be enabled already in display section (config_<MCU>.h)
@@ -1128,6 +1282,7 @@
 //#define SERIAL_HARDWARE            /* hardware serial */
 //#define SERIAL_RW                  /* enable serial read support */
 
+
 /*
  *  OneWire bus
  *  - for dedicated I/O pin please see ONEWIRE_PORT (config_<MCU>.h)
@@ -1137,12 +1292,15 @@
 //#define ONEWIRE_PROBES             /* via probes */
 //#define ONEWIRE_IO_PIN             /* via dedicated I/O pin */
 
+
+
 /* ************************************************************************
  *   ADC clock
  * ************************************************************************ */
 
+
 /*
- *  ADC clock
+ *  ADC clock 
  *  - The ADC clock is 125000Hz by default.
  *  - You could also set 250000Hz, but that exceeds the max. ADC clock
  *    of 200kHz for 10 bit resolution!
@@ -1150,12 +1308,13 @@
  */
 
 #if CPU_FREQ == 20000000
-/* 20MHz MCU clock */
-#define ADC_FREQ 156250
+  /* 20MHz MCU clock */
+  #define ADC_FREQ    156250
 #else
-/* all other MCU clocks */
-#define ADC_FREQ 125000
+  /* all other MCU clocks */
+  #define ADC_FREQ    125000
 #endif
+
 
 /*
  *  define clock divider
@@ -1165,37 +1324,40 @@
 
 /* 1MHz/250kHz */
 #if CPU_FREQ / ADC_FREQ == 4
-#define ADC_CLOCK_DIV (1 << ADPS1)
+  #define ADC_CLOCK_DIV (1 << ADPS1) 
 #endif
 
 /* 1MHz/125kHz 2MHz/250kHz */
 #if CPU_FREQ / ADC_FREQ == 8
-#define ADC_CLOCK_DIV (1 << ADPS1) | (1 << ADPS0)
+  #define ADC_CLOCK_DIV (1 << ADPS1) | (1 << ADPS0)
 #endif
 
 /* 2MHz/125kHz 4MHz/250kHz */
 #if CPU_FREQ / ADC_FREQ == 16
-#define ADC_CLOCK_DIV (1 << ADPS2)
+  #define ADC_CLOCK_DIV (1 << ADPS2)
 #endif
 
 /* 4MHz/125kHz 8MHz/250kHz */
 #if CPU_FREQ / ADC_FREQ == 32
-#define ADC_CLOCK_DIV (1 << ADPS2) | (1 << ADPS0)
+  #define ADC_CLOCK_DIV (1 << ADPS2) | (1 << ADPS0)
 #endif
 
 /* 8MHz/125kHz 16MHz/250kHz */
 #if CPU_FREQ / ADC_FREQ == 64
-#define ADC_CLOCK_DIV (1 << ADPS2) | (1 << ADPS1)
+  #define ADC_CLOCK_DIV (1 << ADPS2) | (1 << ADPS1)
 #endif
 
 /* 16MHz/125kHz 20MHz/156.25kHz */
 #if CPU_FREQ / ADC_FREQ == 128
-#define ADC_CLOCK_DIV (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0)
+  #define ADC_CLOCK_DIV (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0)
 #endif
+
+
 
 /* ************************************************************************
  *   derived values
  * ************************************************************************ */
+
 
 /*
  *  number of MCU cycles per �s
@@ -1203,45 +1365,52 @@
  *  - max. 20 (for 20MHz)
  */
 
-#define MCU_CYCLES_PER_US (CPU_FREQ / 1000000)
+#define MCU_CYCLES_PER_US     (CPU_FREQ / 1000000)
+
 
 /*
  *  number of MCU cycles per ADC cycle
  *  - min. 4
  *  - max. 128
- */
+ */ 
 
-#define MCU_CYCLES_PER_ADC (CPU_FREQ / ADC_FREQ)
+#define MCU_CYCLES_PER_ADC    (CPU_FREQ / ADC_FREQ)
+
 
 /*
  *  time of a MCU cycle (in 0.1 ns)
  */
 
-#define MCU_CYCLE_TIME (10000 / (CPU_FREQ / 1000000))
+#define MCU_CYCLE_TIME        (10000 / (CPU_FREQ / 1000000))
+
+
 
 /* ************************************************************************
  *   options management
  * ************************************************************************ */
 
+
 /*
  *  storage of program data (EEPROM/Flash)
  */
 
-#if defined(DATA_EEPROM)
-/* memory type */
-#define MEM_TYPE EEMEM
+#if defined (DATA_EEPROM)
+  /* memory type */
+  #define MEM_TYPE            EEMEM
 
-/* read functions */
-#define DATA_read_byte(addr) eeprom_read_byte(addr)
-#define DATA_read_word(addr) eeprom_read_word(addr)
-#elif defined(DATA_FLASH)
-/* memory type */
-#define MEM_TYPE PROGMEM
+  /* read functions */
+  #define DATA_read_byte(addr)     eeprom_read_byte(addr)
+  #define DATA_read_word(addr)     eeprom_read_word(addr)
+#elif defined (DATA_FLASH)
+  /* memory type */
+  #define MEM_TYPE            PROGMEM
 
-/* read functions */
-#define DATA_read_byte(addr) pgm_read_byte(addr)
-#define DATA_read_word(addr) pgm_read_word(addr)
+  /* read functions */
+  #define DATA_read_byte(addr)     pgm_read_byte(addr)
+  #define DATA_read_word(addr)     pgm_read_word(addr)
 #endif
+
+
 
 /*
  *  hardware/software options
@@ -1249,498 +1418,580 @@
 
 /* power switch: prefer soft-latching type */
 #ifdef POWER_SWITCH_SOFT
-#ifdef POWER_SWITCH_MANUAL
-#undef POWER_SWITCH_MANUAL
+  #ifdef POWER_SWITCH_MANUAL
+    #undef POWER_SWITCH_MANUAL
+  #endif
 #endif
-#endif
+
 
 /* additional keys */
 /* rotary encoder, increase/decrease push buttons or touch screen */
-#if defined(HW_ENCODER) || defined(HW_INCDEC_KEYS) | defined(HW_TOUCH)
-#define HW_KEYS
+#if defined (HW_ENCODER) || defined (HW_INCDEC_KEYS) | defined (HW_TOUCH)
+  #define HW_KEYS
 #endif
 
 /* options which require additional keys */
 #ifndef HW_KEYS
 
-/* key hints */
-#ifdef UI_KEY_HINTS
-#undef UI_KEY_HINTS
+  /* key hints */
+  #ifdef UI_KEY_HINTS
+    #undef UI_KEY_HINTS
+  #endif
+
+  /* PWM+ */
+  #ifdef SW_PWM_PLUS
+    #undef SW_PWM_PLUS
+    #define SW_PWM_SIMPLE   
+  #endif
+
+  /* squarewave generator */
+  #ifdef SW_SQUAREWAVE
+    #undef SW_SQUAREWAVE
+  #endif
+
+  /* Servo Check */
+  #ifdef SW_SERVO
+    #undef SW_SERVO
+  #endif
+
+  /* event counter */
+  #ifdef HW_EVENT_COUNTER
+    #undef HW_EVENT_COUNTER
+  #endif
+
+  /* IR Sender */
+  #ifdef SW_IR_TRANSMITTER
+    #undef SW_IR_TRANSMITTER
+  #endif
+
+  /* logic probe */
+  #ifdef HW_LOGIC_PROBE
+    #undef HW_LOGIC_PROBE
+  #endif
+
 #endif
 
-/* PWM+ */
-#ifdef SW_PWM_PLUS
-#undef SW_PWM_PLUS
-#define SW_PWM_SIMPLE
-#endif
-
-/* squarewave generator */
-#ifdef SW_SQUAREWAVE
-#undef SW_SQUAREWAVE
-#endif
-
-/* Servo Check */
-#ifdef SW_SERVO
-#undef SW_SERVO
-#endif
-
-/* IR Sender */
-#ifdef SW_IR_TRANSMITTER
-#undef SW_IR_TRANSMITTER
-#endif
-
-#endif
 
 /* options which require inductance measurement */
 #ifndef SW_INDUCTOR
 
-/* L monitor */
-#ifdef SW_MONITOR_L
-#undef SW_MONITOR_L
+  /* L monitor */
+  #ifdef SW_MONITOR_L
+    #undef SW_MONITOR_L
+  #endif
+
+  /* RCL Monitor */
+  #ifdef SW_MONITOR_RCL
+    #undef SW_MONITOR_RCL
+  #endif
+
+  /* RL Monitor */
+  #ifdef SW_MONITOR_RL
+    #undef SW_MONITOR_RL
+  #endif
+
 #endif
 
-/* RCL Monitor */
-#ifdef SW_MONITOR_RCL
-#undef SW_MONITOR_RCL
-#endif
-
-/* RL Monitor */
-#ifdef SW_MONITOR_RL
-#undef SW_MONITOR_RL
-#endif
-
-#endif
 
 /* options which require ESR measurement */
-#if !defined(SW_ESR) && !defined(SW_OLD_ESR)
-/* ESR tool */
-#ifdef SW_ESR_TOOL
-#undef SW_ESR_TOOL
-#endif
+#if ! defined (SW_ESR) && ! defined (SW_OLD_ESR)
+  /* ESR tool */
+  #ifdef SW_ESR_TOOL
+    #undef SW_ESR_TOOL
+  #endif
 #endif
 
+
 /* options which require a buzzer */
-#if !defined(HW_BUZZER)
-/* continuity check */
-#ifdef SW_CONTINUITY_CHECK
-#undef SW_CONTINUITY_CHECK
+#if ! defined (HW_BUZZER)
+  /* continuity check */
+  #ifdef SW_CONTINUITY_CHECK
+    #undef SW_CONTINUITY_CHECK
+  #endif
 #endif
-#endif
+
 
 /* options which require a MCU clock >= 8MHz */
 #if CPU_FREQ < 8000000
 
-/* ESR measurement */
-#ifdef SW_ESR
-#undef SW_ESR
+  /* ESR measurement */
+  #ifdef SW_ESR
+    #undef SW_ESR
+  #endif
+
+  /* old ESR measurement */
+  #ifdef SW_OLD_ESR
+    #undef SW_OLD_ESR
+  #endif
+
 #endif
 
-/* old ESR measurement */
-#ifdef SW_OLD_ESR
-#undef SW_OLD_ESR
-#endif
-
-#endif
 
 /* SPI: either bit-bang or hardware */
-#if defined(SPI_BITBANG) && defined(SPI_HARDWARE)
-#error <<< Select either bitbang or hardware SPI! >>>
+#if defined (SPI_BITBANG) && defined (SPI_HARDWARE)
+  #error <<< Select either bitbang or hardware SPI! >>>
 #endif
 
 /* SPI: common switch */
-#if defined(SPI_BITBANG) || defined(SPI_HARDWARE)
-#define HW_SPI
+#if defined (SPI_BITBANG) || defined (SPI_HARDWARE)
+  #define HW_SPI
 #endif
 
 /* 9-Bit SPI requires bit-bang mode */
 #ifdef SPI_9
-#ifndef SPI_BITBANG
-#error <<< 9-Bit SPI requires bit-bang mode! >>>
-#endif
+  #ifndef SPI_BITBANG
+    #error <<< 9-Bit SPI requires bit-bang mode! >>>
+  #endif
 #endif
 
 /* options which require SPI */
 #ifndef HW_SPI
-/* SPI read support */
-#ifdef SPI_RW
-#undef SPI_RW
-#endif
+  /* SPI read support */
+  #ifdef SPI_RW
+    #undef SPI_RW
+  #endif
 #endif
 
 /* options which require SPI read support */
 #ifndef SPI_RW
-/* MAX6675 */
-#ifdef HW_MAX6675
-#undef HW_MAX6675
-#endif
-/* MAX31855 */
-#ifdef HW_MAX31855
-#undef HW_MAX31855
-#endif
+  /* MAX6675 */
+  #ifdef HW_MAX6675
+    #undef HW_MAX6675
+  #endif
+  /* MAX31855 */
+  #ifdef HW_MAX31855
+    #undef HW_MAX31855
+  #endif
 #endif
 
+
 /* I2C: either bit-bang or hardware */
-#if defined(I2C_BITBANG) && defined(I2C_HARDWARE)
-#error <<< Select either bitbang or hardware I2C! >>>
+#if defined (I2C_BITBANG) && defined (I2C_HARDWARE)
+  #error <<< Select either bitbang or hardware I2C! >>>
 #endif
 
 /* I2C: common switch */
-#if defined(I2C_BITBANG) || defined(I2C_HARDWARE)
-#define HW_I2C
+#if defined (I2C_BITBANG) || defined (I2C_HARDWARE)
+  #define HW_I2C
 #endif
 
+
 /* TTL serial: either bit-bang or hardware */
-#if defined(SERIAL_BITBANG) && defined(SERIAL_HARDWARE)
-#error <<< Select either bitbang or hardware serial interface! >>>
+#if defined (SERIAL_BITBANG) && defined (SERIAL_HARDWARE)
+  #error <<< Select either bitbang or hardware serial interface! >>>
 #endif
 
 /* TTL serial: common switch */
-#if defined(SERIAL_BITBANG) || defined(SERIAL_HARDWARE)
-#define HW_SERIAL
+#if defined (SERIAL_BITBANG) || defined (SERIAL_HARDWARE)
+  #define HW_SERIAL
 #endif
 
 /* VT100 display driver disables other options for serial interface */
 #ifdef LCD_VT100
-#ifdef UI_SERIAL_COPY
-#undef UI_SERIAL_COPY
-#endif
-#ifdef UI_SERIAL_COMMANDS
-#undef UI_SERIAL_COMMANDS
-#endif
+  #ifdef UI_SERIAL_COPY
+    #undef UI_SERIAL_COPY
+  #endif
+  #ifdef UI_SERIAL_COMMANDS
+    #undef UI_SERIAL_COMMANDS
+  #endif  
 #endif
 
 /* options which require TTL serial */
 #ifndef HW_SERIAL
-/* VT100 display */
-#ifdef LCD_VT100
-#undef LCD_VT100
-#endif
-/* serial copy */
-#ifdef UI_SERIAL_COPY
-#undef UI_SERIAL_COPY
-#endif
-/* remote commands */
-#ifdef UI_SERIAL_COMMANDS
-#undef UI_SERIAL_COMMANDS
-#endif
+  /* VT100 display */
+  #ifdef LCD_VT100
+    #undef LCD_VT100
+  #endif
+  /* serial copy */
+  #ifdef UI_SERIAL_COPY
+    #undef UI_SERIAL_COPY
+  #endif
+  /* remote commands */
+  #ifdef UI_SERIAL_COMMANDS
+    #undef UI_SERIAL_COMMANDS
+  #endif
 #endif
 
 /* options which require TTL serial RW */
 #ifndef SERIAL_RW
-#ifdef UI_SERIAL_COMMANDS
-#undef UI_SERIAL_COMMANDS
-#endif
+  #ifdef UI_SERIAL_COMMANDS
+    #undef UI_SERIAL_COMMANDS
+  #endif
 #endif
 
+
 /* OneWire */
-#if defined(ONEWIRE_PROBES) && defined(ONEWIRE_IO_PIN)
-#error <<< Select either probes or dedicated IO pin for Onewire! >>>
+#if defined (ONEWIRE_PROBES) && defined (ONEWIRE_IO_PIN)
+  #error <<< Select either probes or dedicated IO pin for Onewire! >>>
 #endif
 
 /* options which require OneWire */
-#if !defined(ONEWIRE_PROBES) && !defined(ONEWIRE_IO_PIN)
+#if ! defined (ONEWIRE_PROBES) && ! defined (ONEWIRE_IO_PIN)
 
-/* DS18B20 */
-#ifdef SW_DS18B20
-#undef SW_DS18B20
+  /* DS18B20 */
+  #ifdef SW_DS18B20
+    #undef SW_DS18B20
+  #endif
+
+  /* OneWire scan */
+  #ifdef SW_ONEWIRE_SCAN
+    #undef SW_ONEWIRE_SCAN
+  #endif
+
 #endif
 
-/* OneWire scan */
-#ifdef SW_ONEWIRE_SCAN
-#undef SW_ONEWIRE_SCAN
-#endif
-
-#endif
 
 /* touchscreen */
 #ifdef TOUCH_PORT
-#define HW_TOUCH
+  #define HW_TOUCH
 #endif
+
 
 /* LCD module */
 #ifdef LCD_CONTRAST
-#define SW_CONTRAST
+  #define SW_CONTRAST
 #else
-#define LCD_CONTRAST 0
+  #define LCD_CONTRAST        0
 #endif
+
 
 /* options which require a color display */
 #ifndef LCD_COLOR
 
-/* color coding for probes */
-#ifdef UI_PROBE_COLORS
-#undef UI_PROBE_COLORS
+  /* color coding for probes */
+  #ifdef UI_PROBE_COLORS
+    #undef UI_PROBE_COLORS
+  #endif
+
+  /* colored titles */
+  #ifdef UI_COLORED_TITLES
+    #undef UI_COLORED_TITLES
+  #endif
+
+  /* colored cursor and key hints */
+  #ifdef UI_COLORED_CURSOR
+    #undef UI_COLORED_CURSOR
+  #endif
+
 #endif
 
-/* colored titles */
-#ifdef UI_COLORED_TITLES
-#undef UI_COLORED_TITLES
-#endif
-
-/* colored cursor and key hints */
-#ifdef UI_COLORED_CURSOR
-#undef UI_COLORED_CURSOR
-#endif
-
-#endif
 
 /* options which require a color graphics display */
-#if !defined(LCD_COLOR) || !defined(LCD_GRAPHIC)
+#if ! defined (LCD_COLOR) || ! defined (LCD_GRAPHIC)
 
-/* resistor color-codes */
-#ifdef SW_R_E24_5_CC
-#undef SW_R_E24_5_CC
-#endif
-#ifdef SW_R_E24_1_CC
-#undef SW_R_E24_1_CC
-#endif
-#ifdef SW_R_E96_CC
-#undef SW_R_E96_CC
-#endif
+  /* resistor color-codes */
+  #ifdef SW_R_E24_5_CC
+    #undef SW_R_E24_5_CC
+  #endif
+  #ifdef SW_R_E24_1_CC
+    #undef SW_R_E24_1_CC
+  #endif
+  #ifdef SW_R_E96_CC
+    #undef SW_R_E96_CC
+  #endif
 
 #endif
+
+
+/* additional font characters */
+#if defined (UI_PROBE_REVERSED)
+  #ifndef FONT_EXTRA
+    #define FONT_EXTRA
+  #endif
+#endif
+
 
 /* component symbols for fancy pinout */
-#if defined(SYMBOLS_24X24_H)
-#define SYMBOLS_SELECTED
+#if defined (SYMBOLS_24X24_H)
+  #define SYMBOLS_SELECTED
 #endif
-#if defined(SYMBOLS_24X24_HF) || defined(SYMBOLS_30X32_HF) || defined(SYMBOLS_32X32_HF)
-#define SYMBOLS_SELECTED
+#if defined (SYMBOLS_24X24_OLD_H)
+  #define SYMBOLS_SELECTED
 #endif
-#if defined(SYMBOLS_24X24_VFP)
-#define SYMBOLS_SELECTED
+#if defined (SYMBOLS_24X24_HF) || defined (SYMBOLS_30X32_HF) || defined (SYMBOLS_32X32_HF)
+  #define SYMBOLS_SELECTED
 #endif
-#if defined(SYMBOLS_24X24_VP_F)
-#define SYMBOLS_SELECTED
+#if defined (SYMBOLS_24X24_OLD_HF) || defined (SYMBOLS_30X32_OLD_HF) || defined (SYMBOLS_32X32_OLD_HF)
+  #define SYMBOLS_SELECTED
 #endif
+#if defined (SYMBOLS_24X24_VFP)
+  #define SYMBOLS_SELECTED
+#endif
+#if defined (SYMBOLS_24X24_OLD_VFP)
+  #define SYMBOLS_SELECTED
+#endif
+#if defined (SYMBOLS_24X24_VP_F)
+  #define SYMBOLS_SELECTED
+#endif
+#if defined (SYMBOLS_24X24_OLD_VP_F)
+  #define SYMBOLS_SELECTED
+#endif
+
 
 /* fancy pinout requires graphic display and symbol set */
 #ifdef SW_SYMBOLS
 
-/* graphic display */
-#ifndef LCD_GRAPHIC
-#undef SW_SYMBOLS
+  /* graphic display */
+  #ifndef LCD_GRAPHIC
+    #undef SW_SYMBOLS
+  #endif
+
+  /* symbol set */
+  #ifndef SYMBOLS_SELECTED
+    #undef SW_SYMBOLS
+  #endif
+
 #endif
 
-/* symbol set */
-#ifndef SYMBOLS_SELECTED
-#undef SW_SYMBOLS
+
+/* additional component symbols */
+#if defined (SW_UJT)
+  #ifndef SYMBOLS_EXTRA
+    #define SYMBOLS_EXTRA
+  #endif
 #endif
 
+
+/* disabling text pinout requires fancy pinout */
+#if defined (UI_NO_TEXTPINOUT)
+  #ifndef SW_SYMBOLS
+    #undef UI_NO_TEXTPINOUT
+  #endif
 #endif
+
 
 /* frequency counter */
-#if defined(HW_FREQ_COUNTER_BASIC) || defined(HW_FREQ_COUNTER_EXT)
-#define HW_FREQ_COUNTER
+#if defined (HW_FREQ_COUNTER_BASIC) || defined (HW_FREQ_COUNTER_EXT)
+  #define HW_FREQ_COUNTER
 #endif
+
 
 /* ring tester */
-#if defined(HW_RING_TESTER)
-/* requires pulse output */
-#if !defined(RING_TESTER_PIN) && !defined(RING_TESTER_PROBES)
-#error <<< Select pulse output for ring tester! >>>
-#endif
-/* prefer dedicated pin */
-#if defined(RING_TESTER_PIN) && defined(RING_TESTER_PROBES)
-#undef RING_TESTER_PROBES
-#endif
+#if defined (HW_RING_TESTER)
+  /* requires pulse output */
+  #if ! defined (RING_TESTER_PIN) && ! defined (RING_TESTER_PROBES)
+    #error <<< Select pulse output for ring tester! >>>
+  #endif
+  /* prefer dedicated pin */
+  #if defined (RING_TESTER_PIN) && defined (RING_TESTER_PROBES)
+    #undef RING_TESTER_PROBES
+  #endif
 #endif
 
+
 /* IR detector/decoder */
-#if defined(SW_IR_RECEIVER) && defined(HW_IR_RECEIVER)
-#error <<< Select either probes or dedicated IO pin for IR detector! >>>
+#if defined (SW_IR_RECEIVER) && defined (HW_IR_RECEIVER)
+  #error <<< Select either probes or dedicated IO pin for IR detector! >>>
 #endif
+
 
 /* rounding for DS18B20 requires DS18B20 support */
 #ifdef UI_ROUND_DS18B20
-#ifndef SW_DS18B20
-#undef UI_ROUND_DS18B20
+  #ifndef SW_DS18B20
+    #undef UI_ROUND_DS18B20
+  #endif
 #endif
-#endif
+
 
 /* Zener check during normal probing requires "unswitched" mode */
 #ifdef HW_PROBE_ZENER
-#ifndef ZENER_UNSWITCHED
-#undef HW_PROBE_ZENER
+  #ifndef ZENER_UNSWITCHED
+    #undef HW_PROBE_ZENER
+  #endif
 #endif
-#endif
+
 
 /* read functions for display require bus with read support enabled */
 #ifdef LCD_READ
-#if defined(LCD_SPI) && !defined(SPI_RW)
-#undef LCD_READ
-#endif
-#if defined(LCD_I2C) && !defined(I2C_RW)
-#undef LCD_READ
-#endif
-/* can't check parallel busses */
+  #if defined (LCD_SPI) && ! defined (SPI_RW)
+    #undef LCD_READ
+  #endif
+  #if defined (LCD_I2C) && ! defined (I2C_RW)
+    #undef LCD_READ
+  #endif
+  /* can't check parallel busses */
 #endif
 
 /* display ID requires read functions for display */
 #ifdef SW_DISPLAY_ID
-#ifndef LCD_READ
-#undef SW_DISPLAY_ID
-#endif
+  #ifndef LCD_READ
+    #undef SW_DISPLAY_ID
+  #endif
 #endif
 
 /* output of display registers requires read functions for display
    and serial output */
 #ifdef SW_DISPLAY_REG
-#ifndef LCD_READ
-#undef SW_DISPLAY_REG
+  #ifndef LCD_READ
+    #undef SW_DISPLAY_REG
+  #endif
+  #ifndef UI_SERIAL_COPY
+    #undef SW_DISPLAY_REG
+  #endif
 #endif
-#ifndef UI_SERIAL_COPY
-#undef SW_DISPLAY_REG
-#endif
-#endif
+
+
 
 /* ************************************************************************
  *   simplify ifdefs
  * ************************************************************************ */
 
+
 /* ProbePinout() */
-#if defined(SW_PWM_SIMPLE) || defined(SW_PWM_PLUS) || defined(SW_SQUAREWAVE) || defined(SW_SERVO)
-#ifndef FUNC_PROBE_PINOUT
-#define FUNC_PROBE_PINOUT
-#endif
-#endif
-
-#if defined(SW_ESR_TOOL) || defined(SW_CONTINUITY_CHECK)
-#ifndef FUNC_PROBE_PINOUT
-#define FUNC_PROBE_PINOUT
-#endif
+#if defined (SW_PWM_SIMPLE) || defined (SW_PWM_PLUS) || defined (SW_SQUAREWAVE) || defined (SW_SERVO)
+  #ifndef FUNC_PROBE_PINOUT
+    #define FUNC_PROBE_PINOUT
+  #endif
 #endif
 
-#if defined(SW_MONITOR_R) || defined(SW_MONITOR_C) || defined(SW_MONITOR_L) || defined(SW_MONITOR_RCL) || defined(SW_MONITOR_RL)
-#ifndef FUNC_PROBE_PINOUT
-#define FUNC_PROBE_PINOUT
-#endif
+#if defined (SW_ESR_TOOL) || defined (SW_CONTINUITY_CHECK)
+  #ifndef FUNC_PROBE_PINOUT
+    #define FUNC_PROBE_PINOUT
+  #endif
 #endif
 
-#if defined(HW_RING_TESTER) && defined(RING_TESTER_PROBES)
-#ifndef FUNC_PROBE_PINOUT
-#define FUNC_PROBE_PINOUT
+#if defined (SW_MONITOR_R) || defined (SW_MONITOR_C) || defined (SW_MONITOR_L) || defined(SW_MONITOR_RCL) || defined(SW_MONITOR_RL)
+  #ifndef FUNC_PROBE_PINOUT
+    #define FUNC_PROBE_PINOUT
+  #endif
 #endif
+
+#if defined (HW_RING_TESTER) && defined (RING_TESTER_PROBES)
+  #ifndef FUNC_PROBE_PINOUT
+    #define FUNC_PROBE_PINOUT
+  #endif
 #endif
+
 
 /* E6 norm values */
-#if defined(SW_C_E6_T) || defined(SW_L_E6_T)
-#define SW_E6
+#if defined (SW_C_E6_T) || defined (SW_L_E6_T)
+  #define SW_E6
 #endif
 
 /* E12 norm values */
-#if defined(SW_C_E12_T) || defined(SW_L_E12_T)
-#define SW_E12
+#if defined (SW_C_E12_T) || defined (SW_L_E12_T)
+  #define SW_E12
 #endif
 
 /* E24 norm values */
-#if defined(SW_R_E24_5_T) || defined(SW_R_E24_5_CC) || defined(SW_R_E24_1_T) || defined(SW_R_E24_1_CC)
-#define SW_E24
+#if defined (SW_R_E24_5_T) || defined (SW_R_E24_5_CC) || defined (SW_R_E24_1_T) || defined (SW_R_E24_1_CC)
+  #define SW_E24
 #endif
 
 /* E96 norm values */
-#if defined(SW_R_E96_T) || defined(SW_R_E96_CC) || defined(SW_R_E96_EIA96)
-#define SW_E96
+#if defined (SW_R_E96_T) || defined (SW_R_E96_CC) || defined (SW_R_E96_EIA96)
+  #define SW_E96
 #endif
+
 
 /* Show_ENormValues(), Display_EValue() */
-#if defined(SW_R_E24_5_T) || defined(SW_R_E24_1_T) || defined(SW_R_E96_T)
-#ifndef FUNC_EVALUE
-#define FUNC_EVALUE
-#endif
-#ifndef SW_R_EXX
-#define SW_R_EXX
-#endif
+#if defined (SW_R_E24_5_T) || defined (SW_R_E24_1_T) || defined (SW_R_E96_T)
+  #ifndef FUNC_EVALUE
+    #define FUNC_EVALUE
+  #endif
+  #ifndef SW_R_EXX
+    #define SW_R_EXX
+  #endif
 #endif
 
-#if defined(SW_C_E6_T) || defined(SW_C_E12_T) || defined(SW_L_E6_T) || defined(SW_L_E12_T)
-#ifndef FUNC_EVALUE
-#define FUNC_EVALUE
+#if defined (SW_C_E6_T) || defined (SW_C_E12_T) || defined (SW_L_E6_T) || defined (SW_L_E12_T)
+  #ifndef FUNC_EVALUE
+    #define FUNC_EVALUE
+  #endif
 #endif
-#endif
+
 
 /* Show_ENormCodes(), Display_ColorCode() */
-#if defined(SW_R_E24_5_CC) || defined(SW_R_E24_1_CC) || defined(SW_R_E96_CC)
-#ifndef FUNC_COLORCODE
-#define FUNC_COLORCODE
+#if defined (SW_R_E24_5_CC) || defined (SW_R_E24_1_CC) || defined (SW_R_E96_CC)
+  #ifndef FUNC_COLORCODE
+    #define FUNC_COLORCODE
+  #endif
+  #ifndef SW_R_EXX
+    #define SW_R_EXX
+  #endif
 #endif
-#ifndef SW_R_EXX
-#define SW_R_EXX
-#endif
-#endif
+
 
 /* Show_ENormEIA96(), Display_EIA96() */
-#if defined(SW_R_E96_EIA96)
-#ifndef FUNC_EIA96
-#define FUNC_EIA96
+#if defined (SW_R_E96_EIA96)
+  #ifndef FUNC_EIA96
+    #define FUNC_EIA96
+  #endif
+  #ifndef SW_R_EXX
+    #define SW_R_EXX
+  #endif
 #endif
-#ifndef SW_R_EXX
-#define SW_R_EXX
-#endif
-#endif
+
 
 /* SmoothLongKeyPress() */
-#if defined(SW_PWM_PLUS) || defined(SW_SERVO) || defined(HW_EVENT_COUNTER) || defined(HW_LC_METER)
-#ifndef FUNC_SMOOTHLONGKEYPRESS
-#define FUNC_SMOOTHLONGKEYPRESS
+#if defined (SW_PWM_PLUS) || defined (SW_SERVO) || defined (HW_EVENT_COUNTER) || defined (HW_LC_METER)
+  #ifndef FUNC_SMOOTHLONGKEYPRESS
+    #define FUNC_SMOOTHLONGKEYPRESS
+  #endif
 #endif
-#endif
+
 
 /* Display_FullValue() */
-#if defined(SW_SQUAREWAVE) || defined(SW_PWM_PLUS) || defined(HW_FREQ_COUNTER_EXT) || defined(SW_SERVO)
-#ifndef FUNC_DISPLAY_FULLVALUE
-#define FUNC_DISPLAY_FULLVALUE
-#endif
-#endif
-
-#if defined(HW_EVENT_COUNTER) || defined(SW_DHTXX) || defined(LC_METER_SHOW_FREQ) || defined(HW_MAX6675)
-#ifndef FUNC_DISPLAY_FULLVALUE
-#define FUNC_DISPLAY_FULLVALUE
-#endif
+#if defined (SW_SQUAREWAVE) || defined (SW_PWM_PLUS) || defined (HW_FREQ_COUNTER_EXT) || defined (SW_SERVO)
+  #ifndef FUNC_DISPLAY_FULLVALUE
+    #define FUNC_DISPLAY_FULLVALUE
+  #endif
 #endif
 
-#if defined(FUNC_EVALUE) || defined(FUNC_COLORCODE) || defined(FUNC_EIA96)
-#ifndef FUNC_DISPLAY_FULLVALUE
-#define FUNC_DISPLAY_FULLVALUE
+#if defined (HW_EVENT_COUNTER) || defined (SW_DHTXX) || defined (LC_METER_SHOW_FREQ) || defined (HW_MAX6675)
+  #ifndef FUNC_DISPLAY_FULLVALUE
+    #define FUNC_DISPLAY_FULLVALUE
+  #endif
 #endif
+
+#if defined (FUNC_EVALUE) || defined (FUNC_COLORCODE) || defined (FUNC_EIA96)
+  #ifndef FUNC_DISPLAY_FULLVALUE
+    #define FUNC_DISPLAY_FULLVALUE
+  #endif
 #endif
+
 
 /* Display_SignedFullValue() */
-#if defined(SW_DS18B20) || defined(SW_DHTXX) || defined(HW_MAX31855)
-#ifndef FUNC_DISPLAY_SIGNEDFULLVALUE
-#define FUNC_DISPLAY_SIGNEDFULLVALUE
-#endif
+#if defined (SW_DS18B20) || defined (SW_DHTXX) || defined (HW_MAX31855)
+  #ifndef FUNC_DISPLAY_SIGNEDFULLVALUE
+    #define FUNC_DISPLAY_SIGNEDFULLVALUE
+  #endif
 #endif
 
+
 /* Display_HexByte() */
-#if defined(SW_IR_RECEIVER) || defined(HW_IR_RECEIVER) || defined(ONEWIRE_READ_ROM) || defined(SW_ONEWIRE_SCAN) || defined(SW_FONT_TEST) || defined(SW_DISPLAY_REG)
-#ifndef FUNC_DISPLAY_HEXBYTE
-#define FUNC_DISPLAY_HEXBYTE
-#endif
+#if defined (SW_IR_RECEIVER) || defined (HW_IR_RECEIVER) || defined (ONEWIRE_READ_ROM) || defined (SW_ONEWIRE_SCAN) || defined (SW_FONT_TEST) || defined (SW_DISPLAY_REG)
+  #ifndef FUNC_DISPLAY_HEXBYTE
+    #define FUNC_DISPLAY_HEXBYTE
+  #endif
 #endif
 
 /* Display_HexValue() */
-#if defined(SW_IR_TRANSMITTER) || defined(SW_DISPLAY_ID)
-#ifndef FUNC_DISPLAY_HEXVALUE
-#define FUNC_DISPLAY_HEXVALUE
+#if defined (SW_IR_TRANSMITTER) || defined (SW_DISPLAY_ID)
+  #ifndef FUNC_DISPLAY_HEXVALUE
+    #define FUNC_DISPLAY_HEXVALUE
+  #endif
 #endif
-#endif
+
 
 /* Celsius2Fahrenheit() */
 #ifdef UI_FAHRENHEIT
-#if defined(SW_DS18B20) || defined(SW_DHTXX) || defined(HW_MAX6675) || defined(HW_MAX31855)
-#ifndef FUNC_CELSIUS2FAHRENHEIT
-#define FUNC_CELSIUS2FAHRENHEIT
-#endif
-#endif
+  #if defined (SW_DS18B20) || defined (SW_DHTXX) || defined (HW_MAX6675) || defined (HW_MAX31855)
+    #ifndef FUNC_CELSIUS2FAHRENHEIT
+      #define FUNC_CELSIUS2FAHRENHEIT
+    #endif
+  #endif
 #endif
 
+
 /* variable Start_str */
-#if defined(SW_OPTO_COUPLER) || defined(SW_DS18B20) || defined(SW_ONEWIRE_SCAN) || defined(HW_EVENT_COUNTER) || defined(HW_MAX6675) || defined(HW_MAX31855)
-#ifndef VAR_START_STR
-#define VAR_START_STR
+#if defined (SW_OPTO_COUPLER) || defined (SW_DS18B20) || defined (SW_ONEWIRE_SCAN) || defined (HW_EVENT_COUNTER) || defined (HW_MAX6675) || defined (HW_MAX31855)
+  #ifndef VAR_START_STR
+    #define VAR_START_STR
+  #endif
 #endif
-#endif
+
+
 
 /* ************************************************************************
  *   EOF

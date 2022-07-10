@@ -3,3 +3,5 @@
 *.lss
 *.map
 /firmware/dep/*
+*.o
+ComponentTester
