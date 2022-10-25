@@ -39,7 +39,7 @@
  *  - if you change LCD_DB4/5/6/7 comment out LCD_DB_STD!
  */
 
-//#if 0
+#if 0
 #define LCD_HD44780                     /* display controller HD44780 */
 #define LCD_TEXT                        /* character display */
 #define LCD_PAR_4                       /* 4 bit parallel interface */
@@ -59,7 +59,7 @@
 /* HD44780 has an internal 5x7 font */
 #define FONT_HD44780_INT                /* International font (English) */
 //#define FONT_HD44780_WIN1251            /* Cyrillic font (European) */
-//#endif
+#endif
 
 /*
  *  HD44780 plus PCF8574 based backpack
@@ -68,13 +68,13 @@
  *  - PCF8574T is 0x27, PCF8574AT is 0x3f
  */
 
-#if 0
+//#if 0
 #define LCD_HD44780                     /* display controller HD44780 */
 #define LCD_TEXT                        /* character display */
 #define LCD_PCF8574                     /* PCF8574 backpack */
-#define LCD_I2C_ADDR     0x3f           /* PCF8574's I2C address */
+#define LCD_I2C_ADDR     0x27           /* PCF8574's I2C address */
 /* control and data lines */
-#define LCD_DB_STD                      /* use standard pins 4-7 for DB4-7 */
+//#define LCD_DB_STD                      /* use standard pins 4-7 for DB4-7 */
 #define LCD_DB4          PCF8574_P4     /* port pin used for DB4 */
 #define LCD_DB5          PCF8574_P5     /* port pin used for DB5 */
 #define LCD_DB6          PCF8574_P6     /* port pin used for DB6 */
@@ -98,7 +98,7 @@
 #define I2C_PIN          PIND           /* I2C port input pins register */
 #define I2C_SDA          PD0            /* port pin used for SDA */
 #define I2C_SCL          PD1            /* port pin used for SCL */
-#endif
+//#endif
 
 
 
@@ -888,7 +888,7 @@
 #define BUTTON_PORT      PORTD     /* port data register */
 #define BUTTON_DDR       DDRD      /* port data direction register */
 #define BUTTON_PIN       PIND      /* port input pins register */
-#define TEST_BUTTON      PD1       /* test/start push button (low active) */
+#define TEST_BUTTON      PD2       /* test/start push button (low active) */
 
 
 /*
@@ -899,7 +899,7 @@
 #define ENCODER_DDR      DDRD      /* port data direction register */
 #define ENCODER_PIN      PIND      /* port input pins register */
 #define ENCODER_A        PD3       /* rotary encoder A signal */
-#define ENCODER_B        PD2       /* rotary encoder B signal */
+#define ENCODER_B        PD4       /* rotary encoder B signal */
 
 
 /*
