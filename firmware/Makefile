@@ -2,7 +2,7 @@
 #  Makefile
 #
 #  (c) 2012-2021 by Markus Reschke
-#  based on code from Markus Frejek and Karl-Heinz Kübbeler
+#  based on code from Markus Frejek and Karl-Heinz K�bbeler
 #
 
 PROJECT = ComponentTester
