@@ -61,6 +61,8 @@
 //#define FONT_HD44780_WIN1251            /* Cyrillic font (European) */
 #endif
 
+
+
 /*
  *  HD44780 plus PCF8574 based backpack
  *  - I2C interface using bit-bang I2C
@@ -855,16 +857,6 @@
 
 
 
-/*
- *  check if a LCD module is specified
- */
-
-#if !defined(LCD_TEXT) && !defined(LCD_GRAPHIC)
-  #error <<< No LCD module specified! >>>
-#endif
-
-
-
 /* ************************************************************************
  *   port and pin assignments
  * ************************************************************************ */
@@ -872,9 +864,8 @@
 
 /*
  *  test pins / probes:
- *  - Must be an ADC port
- *  - Lower 3 pins of the port must be used for probes.
- *  - Please don't change the definitions of TP1, TP2 and TP3!
+ *  - Must be an ADC port!
+ *  - It's recommended to use the lower 3 pins for the probes.
  *  - Don't share this port with POWER_CTRL or TEST_BUTTON!
  */
 
@@ -935,7 +926,7 @@
 #define BUTTON_PORT      PORTD     /* port data register */
 #define BUTTON_DDR       DDRD      /* port data direction register */
 #define BUTTON_PIN       PIND      /* port input pins register */
-#define TEST_BUTTON      PD2       /* test/start push button (low active) */
+#define TEST_BUTTON      PD7       /* test/start push button (low active) */
 
 
 /*
@@ -946,7 +937,7 @@
 #define ENCODER_DDR      DDRD      /* port data direction register */
 #define ENCODER_PIN      PIND      /* port input pins register */
 #define ENCODER_A        PD3       /* rotary encoder A signal */
-#define ENCODER_B        PD4       /* rotary encoder B signal */
+#define ENCODER_B        PD2       /* rotary encoder B signal */
 
 
 /*
@@ -1083,6 +1074,15 @@
 #define MAX31855_PORT    PORTD     /* port data register */
 #define MAX31855_DDR     DDRD      /* port data direction register */
 #define MAX31855_CS      PD5       /* port pin used for /CS */
+
+
+/*
+ *  boost converter for Zener check (dedicated I/O pin)
+ */
+
+#define BOOST_PORT       PORTD     /* port data register */
+#define BOOST_DDR        DDRD      /* port data direction register */
+#define BOOST_CTRL       PD5       /* control pin */
 
 
 

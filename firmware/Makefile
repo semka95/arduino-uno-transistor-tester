@@ -1,7 +1,7 @@
 #
 #  Makefile
 #
-#  (c) 2012-2021 by Markus Reschke
+#  (c) 2012-2022 by Markus Reschke
 #  based on code from Markus Frejek and Karl-Heinz K�bbeler
 #
 
@@ -29,7 +29,7 @@ MCU = atmega328
 # - 8MHz  : 8
 # - 16MHz : 16
 # - 20MHz : 20
-FREQ = 16
+FREQ = 8
 
 # oscillator type
 # - internal RC oscillator      : RC
@@ -84,9 +84,9 @@ PARTNO = m328p
 #OPTIONS = -B 10.0
 
 # Diamex ALL-AVR/AVR-Prog
-# PROGRAMMER = avrispmkII
-# PORT = usb
-# OPTIONS = -B 1.0
+PROGRAMMER = avrispmkII
+PORT = usb
+OPTIONS = -B 1.0
 
 # Pololu USB AVR Programmer
 #PROGRAMMER = stk500v2
@@ -104,9 +104,9 @@ PARTNO = m328p
 #OPTIONS = -B 5.0
 
 # Arduino Uno bootloader via serial/USB
-PROGRAMMER = arduino
-PORT = /dev/ttyACM0
-OPTIONS = -D -b 115200
+#PROGRAMMER = arduino
+#PORT = /dev/ttyACM0
+#OPTIONS = -D -b 115200
 
 # Arduino Mega2560 bootloader via serial/USB
 #PROGRAMMER = wiring
@@ -250,7 +250,7 @@ dist: clean
 	  ${DIST}/*.h ${DIST}/*.c ${DIST}/*.S ${DIST}/bitmaps/*.h \
 	  ${DIST}/Makefile ${DIST}/README ${DIST}/CHANGES \
 	  ${DIST}/README.de ${DIST}/CHANGES.de ${DIST}/Clones \
-	  ${DIST}/*.pdf ${DIST}/dep
+	  ${DIST}/EUPL-v1.2.txt ${DIST}/dep
 
 # clean up
 clean:
