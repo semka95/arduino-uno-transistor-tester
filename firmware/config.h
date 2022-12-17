@@ -390,7 +390,7 @@
  *  - uncomment to enable
  */
 
-//#define SW_ESR_TOOL
+#define SW_ESR_TOOL
 
 
 /*
@@ -539,7 +539,7 @@
  *  - uncomment to enable
  */
 
-//#define SW_CAP_LEAKAGE
+#define SW_CAP_LEAKAGE
 
 
 /*
@@ -572,7 +572,7 @@
 //#define SW_MONITOR_R          /* just R */
 //#define SW_MONITOR_C          /* just C plus ESR */
 //#define SW_MONITOR_L          /* just L */
-//#define SW_MONITOR_RCL        /* R plus L, or C plus ESR */
+#define SW_MONITOR_RCL        /* R plus L, or C plus ESR */
 //#define SW_MONITOR_RL         /* R plus L */
 
 
@@ -1217,7 +1217,7 @@
  *  - uncomment to enable
  */
 
-//#define ADC_LARGE_BUFFER_CAP
+#define ADC_LARGE_BUFFER_CAP
 
 
 
