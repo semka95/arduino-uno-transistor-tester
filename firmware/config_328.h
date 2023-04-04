@@ -926,7 +926,7 @@
 #define BUTTON_PORT      PORTD     /* port data register */
 #define BUTTON_DDR       DDRD      /* port data direction register */
 #define BUTTON_PIN       PIND      /* port input pins register */
-#define TEST_BUTTON      PD7       /* test/start push button (low active) */
+#define TEST_BUTTON      PD2       /* test/start push button (low active) */
 
 
 /*
@@ -937,7 +937,7 @@
 #define ENCODER_DDR      DDRD      /* port data direction register */
 #define ENCODER_PIN      PIND      /* port input pins register */
 #define ENCODER_A        PD3       /* rotary encoder A signal */
-#define ENCODER_B        PD2       /* rotary encoder B signal */
+#define ENCODER_B        PD4       /* rotary encoder B signal */
 
 
 /*
