@@ -2,7 +2,7 @@
  *
  *   IR remote control: receiver
  *
- *   (c) 2015-2021 by Markus Reschke
+ *   (c) 2015-2023 by Markus Reschke
  *
  * ************************************************************************ */
 
@@ -78,8 +78,8 @@ uint8_t             IR_Data_1;               /* data field #1 */
  *  check if pulse/pause duration matches reference value
  *
  *  requires:
- *  - time units of pause/pulse
- *  - time units of reference period
+ *  - time units of pause/pulse (in 50탎)
+ *  - time units of reference period (in 50탎)
  *  - timing control
  *    IR_STD_TOLER   - use standard tolerance
  *    IR_RELAX_SHORT - increase tolerance for short pulses/pauses
@@ -153,7 +153,7 @@ uint8_t PulseCheck(uint8_t PulseWidth, uint8_t Ref, uint8_t Control)
  *    IR_IEEE      - decoding based on IEEE 802.3
  *    IR_THOMAS    - decoding based on G.E. Thomas
  *    IR_PRE_PAUSE - heading pause (not logged)
- *  - time units of clock half cycle
+ *  - time units of clock half cycle (in 50탎)
  *  - timing control
  *    IR_STD_TOLER   - use standard tolerance
  *    IR_RELAX_SHORT - increase tolerance for short pulses/pauses
@@ -168,7 +168,7 @@ uint8_t BiPhase_Demod(uint8_t *PulseData, uint8_t Pulses, uint8_t Mode, uint8_t 
 {
   uint8_t           Counter = 0;   /* return value: number of bits */
   uint8_t           Pulse = 1;     /* pulse counter */
-  uint8_t           Time;          /* pulse duration */
+  uint8_t           Time;          /* pulse duration (in 50탎) */
   uint8_t           Width;         /* 1x / 2x pulse width */
   uint8_t           Dir;           /* direction of pulse change */
   uint8_t           PrePulse = 0;  /* pulse for half-bit */
@@ -353,7 +353,7 @@ uint8_t BiPhase_Demod(uint8_t *PulseData, uint8_t Pulses, uint8_t Mode, uint8_t 
  *  - pointer to pulse/pause duration data
  *    (first one has to be a pulse)
  *  - number of pulses/pauses
- *  - time units of pulse/pause
+ *  - time units of pulse/pause (in 50탎)
  *    should be lower end of valid range
  *  - number of time slots (= bits) expected
  *  - timing control
@@ -370,7 +370,7 @@ uint8_t PPM_Demod(uint8_t *PulseData, uint8_t Pulses, int8_t tP, uint8_t Slots, 
 {
   uint8_t           Counter = 0;   /* return value */
   uint8_t           Pulse = 1;     /* pulse counter */
-  uint8_t           Time;          /* pulse duration */
+  uint8_t           Time;          /* pulse duration (in 50탎) */
   uint8_t           Data = 0;      /* code byte */
   uint8_t           *Code;         /* pointer to code data */
   uint8_t           Bits = 0;      /* counter for bits */
@@ -479,9 +479,9 @@ uint8_t PPM_Demod(uint8_t *PulseData, uint8_t Pulses, int8_t tP, uint8_t Slots, 
  *  - pointer to pulse/pause duration data
  *    first item has to be a pulse for PDM or a pause for PWM
  *  - number of pulses/pauses
- *  - time units of spacer
- *  - time units of 0
- *  - time units of 1
+ *  - time units of spacer (in 50탎)
+ *  - time units of 0 (in 50탎)
+ *  - time units of 1 (in 50탎)
  *  - timing control
  *    IR_STD_TOLER   - use standard tolerance
  *    IR_RELAX_SHORT - increase tolerance for short pulses/pauses
@@ -496,7 +496,7 @@ uint8_t PxM_Demod(uint8_t *PulseData, uint8_t Pulses, uint8_t tS, uint8_t t0, ui
 {
   uint8_t           Counter = 0;   /* return value: number of bits */
   uint8_t           Pulse = 1;     /* pulse counter */
-  uint8_t           Time;          /* pulse duration */
+  uint8_t           Time;          /* pulse duration (in 50탎) */
   uint8_t           Data = 0;      /* code byte */
   uint8_t           *Code;         /* pointer to code data */
   uint8_t           Bits = 0;      /* counter for bits */
@@ -605,8 +605,8 @@ uint8_t PxM_Demod(uint8_t *PulseData, uint8_t Pulses, uint8_t tS, uint8_t t0, ui
  *    first item has to be a pulse
  *  - number of pulses
  *  - offset to special pulse-pause pair (half cycles)
- *  - time units of normal pulse/pause
- *  - time units of special pulse/pause
+ *  - time units of normal pulse/pause (in 50탎)
+ *  - time units of special pulse/pause (in 50탎)
  *
  *  returns:
  *  - number of special pulses
@@ -616,7 +616,7 @@ uint8_t SpecialBiPhasePulse(uint8_t *PulseData, uint8_t Pulses, uint8_t Offset, 
 {
   uint8_t           Counter = 0;   /* return value: number of pulses */
   uint8_t           Mixed;         /* duration of mixed pulse */
-  uint8_t           Time;          /* pulse duration */
+  uint8_t           Time;          /* pulse duration (in 50탎) */
   uint8_t           Cycles = 0;    /* half cycles */
   uint8_t           n = 0;         /* counter */
 
@@ -775,8 +775,8 @@ void IR_Decode(uint8_t *PulseData, uint8_t Pulses)
   uint8_t           Flag = 0;      /* control flag */
   uint8_t           *Pulse;        /* pointer to pause/pulse data */
   uint8_t           PulsesLeft;    /* remaining pulses/pauses */
-  uint8_t           Time1;         /* time units #1 */
-  uint8_t           Time2;         /* time units #2 */
+  uint8_t           Time1;         /* time units #1 (in 50탎) */
+  uint8_t           Time2;         /* time units #2 (in 50탎) */
   uint8_t           Bits = 0;      /* number of bits received */
   uint8_t           Address;       /* RC address */
   uint8_t           Command;       /* RC command */
@@ -1747,9 +1747,15 @@ result:
     /* buzzer: short beep for valid packet */
     if (Flag >= PACKET_OK)         /* valid packet */
     {
+      #ifdef BUZZER_ACTIVE
       BUZZER_PORT |= (1 << BUZZER_CTRL);     /* enable: set pin high */
       MilliSleep(20);                        /* wait for 20 ms */
       BUZZER_PORT &= ~(1 << BUZZER_CTRL);    /* disable: set pin low */
+      #endif
+
+      #ifdef BUZZER_PASSIVE
+      PassiveBuzzer(BUZZER_FREQ_LOW);        /* low frequency beep */
+      #endif
     }
     #endif
 
@@ -1808,10 +1814,21 @@ void IR_Detector(void)
     Display_EEString(IR_Detector_str);  /* display: IR detector */
   #endif
   UI.LineMode = LINE_KEEP;              /* next-line mode: keep first line */
+
   #ifdef SW_IR_RECEIVER
-    /* display module pinout (1: Gnd / 2: Vcc / 3: Data) */
+    /* IR receiver connected to probes */
+    /* display module pinout */
     Display_NextLine();
-    Show_SimplePinout('-', '+', 'd');
+    #if defined (SW_IR_RX_PINOUT_G_V_D)
+      /* pinout variant: 1 - Gnd / 2 - Vcc / 3 - Data */
+      Show_SimplePinout('-', '+', 'd');
+    #elif defined (SW_IR_RX_PINOUT_D_G_V)
+      /* pinout variant: 1 - Data / 2 - Gnd / 3 - Vcc */
+      Show_SimplePinout('d', '-', '+');
+    #elif defined (SW_IR_RX_PINOUT_D_V_G)
+      /* pinout variant: 1 - Data / 2 - Vcc / 3 - Gnd */
+      Show_SimplePinout('d', '+', '-');
+    #endif
   #endif
 
 
@@ -1820,37 +1837,88 @@ void IR_Detector(void)
    */
 
   #ifdef SW_IR_RECEIVER
+    /* IR receiver connected to probes */
     #ifdef SW_IR_DISABLE_RESISTOR
       /* unsafe mode without current limiting resistor for Vs */
-      /* set probes: probe-1 -- Gnd / probe-2 -- Vcc / probe-3 (HiZ) -- Rh -- Gnd */
-      ADC_PORT = (1 << TP2);                /* pull down probe-1, pull up probe-2 */
-      ADC_DDR = (1 << TP1) | (1 << TP2);    /* enable direct pull down/up */
-      R_DDR = (1 << R_RH_3);                /* enable Rh for probe-3 */
-      R_PORT = 0;                           /* pull down probe-3 */
+      #if defined (SW_IR_RX_PINOUT_G_V_D)
+        /* pinout variant: 1 - Gnd / 2 - Vcc / 3 - Data */
+        /* set probes: probe-1 -- Gnd / probe-2 -- Vcc / probe-3 (HiZ) -- Rh -- Gnd */
+        ADC_PORT = (1 << TP2);               /* pull down probe-1, pull up probe-2 */
+        ADC_DDR = (1 << TP1) | (1 << TP2);   /* enable direct pull down/up */
+        R_DDR = (1 << R_RH_3);               /* enable Rh for probe-3 */
+        R_PORT = 0;                          /* pull down probe-3 */
+      #elif defined (SW_IR_RX_PINOUT_D_G_V)
+        /* pinout variant: 1 - Data / 2 - Gnd / 3 - Vcc */
+        /* set probes: probe-1 (HiZ) -- Rh -- Gnd / probe-2 -- Gnd / probe-3 -- Vcc */
+        ADC_PORT = (1 << TP3);               /* pull down probe-2, pull up probe-3 */
+        ADC_DDR = (1 << TP2) | (1 << TP3);   /* enable direct pull down/up */
+        R_DDR = (1 << R_RH_1);               /* enable Rh for probe-1 */
+        R_PORT = 0;                          /* pull down probe-1 */
+      #elif defined (SW_IR_RX_PINOUT_D_V_G)
+        /* pinout variant: 1 - Data / 2 - Vcc / 3 - Gnd */
+        /* set probes: probe-1 (HiZ) -- Rh -- Gnd / probe-2 -- Vcc / probe-3 -- Gnd */
+        ADC_PORT = (1 << TP2);               /* pull up probe-2, pull down probe-3 */
+        ADC_DDR = (1 << TP2) | (1 << TP3);   /* enable direct pull down/up */
+        R_DDR = (1 << R_RH_1);               /* enable Rh for probe-1 */
+        R_PORT = 0;                          /* pull down probe-1 */
+      #endif
     #else
       /* safe mode with current limiting resistor for Vs */
-      /* set probes: probe-1 -- Gnd / probe-2 -- Rl -- Vcc / probe-3 (HiZ) -- Rh -- Gnd */
-      ADC_PORT = 0;                         /* pull down directly: */
-      ADC_DDR = (1 << TP1);                 /* probe-1 */
-      /* pull up probe-2 via Rl, pull down probe-3 via Rh */
-      R_DDR = (1 << R_RL_2) | (1 << R_RH_3);     /* enable resistors */
-      R_PORT = (1 << R_RL_2);                    /* pull up probe-2, pull down probe-3 */
+      #if defined (SW_IR_RX_PINOUT_G_V_D)
+        /* pinout variant: 1 - Gnd / 2 - Vcc / 3 - Data */
+        /* set probes: probe-1 -- Gnd / probe-2 -- Rl -- Vcc / probe-3 (HiZ) -- Rh -- Gnd */
+        ADC_PORT = 0;                             /* pull down directly: */
+        ADC_DDR = (1 << TP1);                     /* probe-1 */
+        /* pull up probe-2 via Rl, pull down probe-3 via Rh */
+        R_DDR = (1 << R_RL_2) | (1 << R_RH_3);    /* enable resistors */
+        R_PORT = (1 << R_RL_2);                   /* pull up probe-2, pull down probe-3 */
+      #elif defined (SW_IR_RX_PINOUT_D_G_V)
+        /* pinout variant: 1 - Data / 2 - Gnd / 3 - Vcc */
+        /* set probes: probe-1 (HiZ) -- Rh -- Gnd / probe-2 -- Gnd / probe-3 -- Rl -- Vcc */
+        ADC_PORT = 0;                             /* pull down directly: */
+        ADC_DDR = (1 << TP2);                     /* probe-2 */
+        /* pull up probe-3 via Rl, pull down probe-1 via Rh */
+        R_DDR = (1 << R_RH_1) | (1 << R_RL_3);    /* enable resistors */
+        R_PORT = (1 << R_RL_3);                   /* pull up probe-3, pull down probe-1 */
+      #elif defined (SW_IR_RX_PINOUT_D_V_G)
+        /* pinout variant: 1 - Data / 2 - Vcc / 3 - Gnd */
+        /* set probes: probe-1 (HiZ) -- Rh -- Gnd / probe-2 -- Rl -- Vcc / probe-3 -- Gnd */
+        ADC_PORT = 0;                             /* pull down directly: */
+        ADC_DDR = (1 << TP3);                     /* probe-3 */
+        /* pull up probe-2 via Rl, pull down probe-1 via Rh */
+        R_DDR = (1 << R_RH_1) | (1 << R_RL_2);    /* enable resistors */
+        R_PORT = (1 << R_RL_2);                   /* pull up probe-2, pull down probe-1 */
+      #endif
     #endif
   #endif
 
   #ifdef HW_IR_RECEIVER
+    /* fixed IR receiver */
     /* set data pin to input mode */
     IR_DDR &= ~(1 << IR_DATA);          /* clear bit for data pin */
   #endif
+
+  wait10ms();                           /* time to settle */
 
   /* wait for IR receiver module or key press */
   n = 1;
   while (n)
   {
     #ifdef SW_IR_RECEIVER
-    if (ADC_PIN & (1 << TP3))      /* check for high level */
+      /* IR receiver connected to probes */
+      #if defined (SW_IR_RX_PINOUT_G_V_D)
+        /* pinout variant: 1 - Gnd / 2 - Vcc / 3 - Data */
+        if (ADC_PIN & (1 << TP3))       /* check for high level */
+      #elif defined (SW_IR_RX_PINOUT_D_G_V)
+        /* pinout variant: 1 - Data / 2 - Gnd / 3 - Vcc */
+        if (ADC_PIN & (1 << TP1))       /* check for high level */
+      #elif defined (SW_IR_RX_PINOUT_D_V_G)
+        /* pinout variant: 1 - Data / 2 - Vcc / 3 - Gnd */
+        if (ADC_PIN & (1 << TP1))       /* check for high level */
+      #endif
     #else
-    if (IR_PIN & (1 << IR_DATA))   /* check for high level */
+      /* fixed IR receiver */
+      if (IR_PIN & (1 << IR_DATA))      /* check for high level */
     #endif
     {
       n = 0;                            /* end this loop */
@@ -1902,10 +1970,19 @@ void IR_Detector(void)
    
     #ifdef SW_IR_RECEIVER
       /* IR receiver connected to probes */
-      Flag = ADC_PIN & (1 << TP3);       /* poll data pin */
+      #if defined (SW_IR_RX_PINOUT_G_V_D)
+        /* pinout variant: 1 - Gnd / 2 - Vcc / 3 - Data */
+        Flag = ADC_PIN & (1 << TP3);         /* poll data pin */
+      #elif defined (SW_IR_RX_PINOUT_D_G_V)
+        /* pinout variant: 1 - Data / 2 - Gnd / 3 - Vcc */
+        Flag = ADC_PIN & (1 << TP1);         /* poll data pin */
+      #elif defined (SW_IR_RX_PINOUT_D_V_G)
+        /* pinout variant: 1 - Data / 2 - Vcc / 3 - Gnd */
+        Flag = ADC_PIN & (1 << TP1);         /* poll data pin */
+      #endif
     #else
       /* fixed IR receiver */
-      Flag = IR_PIN & (1 << IR_DATA);    /* poll data pin */
+      Flag = IR_PIN & (1 << IR_DATA);        /* poll data pin */
     #endif
 
     /*

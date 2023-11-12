@@ -2,7 +2,7 @@
  *
  *   language specific global variables: Russian (Windows-1251)
  *
- *   (c) 2017-2021 by Markus Reschke
+ *   (c) 2017-2023 by Markus Reschke
  *   translation by indman@EEVblog
  *   based on code from Markus Frejek and Karl-Heinz Kьbbeler
  *
@@ -57,11 +57,11 @@
 
 
   /* options */
-  #ifndef BAT_NONE
+  #if ! defined (BAT_NONE) && ! defined (UI_BATTERY)
     const unsigned char Battery_str[] MEM_TYPE = "Бат";
     const unsigned char OK_str[] MEM_TYPE = "OK";
     const unsigned char Weak_str[] MEM_TYPE = "слабая";
-    const unsigned char Low_str[] MEM_TYPE = "замена";
+    const unsigned char Low_str[] MEM_TYPE = "разряд";
   #endif
 
   #ifdef BAT_EXT_UNMONITORED
@@ -201,13 +201,23 @@
   #ifdef SW_CONTINUITY_CHECK
     const unsigned char ContinuityCheck_str[] MEM_TYPE = "Звук.прозвонка";
   #endif
-  
-   #ifdef SW_FONT_TEST
+
+  #ifdef SW_FONT_TEST
     const unsigned char FontTest_str[] MEM_TYPE = "Шрифт";
   #endif
 
-#ifdef SW_SYMBOL_TEST
+  #ifdef SW_SYMBOL_TEST
     const unsigned char SymbolTest_str[] MEM_TYPE = "Символы";
+  #endif
+
+  #ifdef HW_FLASHLIGHT
+    const unsigned char Flashlight_str[] MEM_TYPE = "Фонарик";
+  #endif
+
+  #ifdef SW_PHOTODIODE
+    const unsigned char Photodiode_str[] MEM_TYPE = "Photodiode";
+    const unsigned char NoBias_str[] MEM_TYPE = "no";
+    const unsigned char ReverseBias_str[] MEM_TYPE = "rev";
   #endif
 
 #endif

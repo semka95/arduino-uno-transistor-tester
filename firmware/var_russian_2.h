@@ -2,7 +2,7 @@
  *
  *   language specific global variables: Russian (Windows-1251)
  *
- *   (c) 2017-2021 by Markus Reschke
+ *   (c) 2017-2023 by Markus Reschke
  *   translation by hapless@EEVblog
  *   based on code from Markus Frejek and Karl-Heinz Kübbeler
  *
@@ -56,7 +56,7 @@
 
 
   /* options */
-  #ifndef BAT_NONE
+  #if ! defined (BAT_NONE) && ! defined (UI_BATTERY)
     const unsigned char Battery_str[] MEM_TYPE = "Bat";
     const unsigned char OK_str[] MEM_TYPE = "ok";
     const unsigned char Weak_str[] MEM_TYPE = "ñëàáàÿ";
@@ -199,6 +199,24 @@
 
   #ifdef SW_CONTINUITY_CHECK
     const unsigned char ContinuityCheck_str[] MEM_TYPE = "Continuity";
+  #endif
+
+  #ifdef SW_FONT_TEST
+    const unsigned char FontTest_str[] MEM_TYPE = "Font";
+  #endif
+
+  #ifdef SW_SYMBOL_TEST
+    const unsigned char SymbolTest_str[] MEM_TYPE = "Symbols";
+  #endif
+
+  #ifdef HW_FLASHLIGHT
+    const unsigned char Flashlight_str[] MEM_TYPE = "Flashlight";
+  #endif
+
+  #ifdef SW_PHOTODIODE
+    const unsigned char Photodiode_str[] MEM_TYPE = "Photodiode";
+    const unsigned char NoBias_str[] MEM_TYPE = "no";
+    const unsigned char ReverseBias_str[] MEM_TYPE = "rev";
   #endif
 
 #endif

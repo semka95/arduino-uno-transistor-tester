@@ -2,7 +2,7 @@
  *
  *   global configuration, setup and settings
  *
- *   (c) 2012-2022 by Markus Reschke
+ *   (c) 2012-2023 by Markus Reschke
  *   based on code from Markus Frejek and Karl-Heinz K�bbeler
  *
  * ************************************************************************ */
@@ -151,8 +151,8 @@
  */
 
 //#define ZENER_SWITCHED
-//#define ZENER_BOOST_HIGH                  /* high active */
-#define ZENER_BOOST_LOW                   /* low active */
+//#define ZENER_BOOST_HIGH                /* high active */
+#define ZENER_BOOST_LOW                 /* low active */
 
 
 /*
@@ -322,10 +322,15 @@
 /*
  *  Buzzer
  *  - see BUZZER_CTRL in config_<MCU>.h for port pin
- *  - uncomment to enable
+ *  - buzzer types
+ *    BUZZER_ACTIVE: active buzzer with integrated oscillator
+ *    BUZZER_PASSIVE: passive buzzer
+ *  - uncomment to enable and also select the correct buzzer type
  */
 
 //#define HW_BUZZER
+#define BUZZER_ACTIVE                   /* active buzzer */
+//#define BUZZER_PASSIVE                  /* passive buzzer */
 
 
 /*
@@ -346,6 +351,15 @@
  */
 
 //#define HW_MAX31855
+
+
+/*
+ *  flashlight / general purpose switched output
+ *  - see FLASHLIGHT_CTRL config_<MCU>.h for port pin
+ *  - uncomment to enable
+ */
+
+//#define HW_FLASHLIGHT
 
 
 
@@ -435,7 +449,19 @@
  *  - uncomment to enable
  */
 
-// #define SW_IR_RECEIVER
+//#define SW_IR_RECEIVER
+
+
+/*
+ *  probe pinout for IR receiver module
+ *  - especially useful for testers with ZIF socket
+ *  - select one
+ */
+
+#define SW_IR_RX_PINOUT_G_V_D      /* 1-Gnd 2-Vcc 3-Data (default) */
+//#define SW_IR_RX_PINOUT_D_G_V      /* 1-Data 2-Gnd 3-Vcc */
+//#define SW_IR_RX_PINOUT_D_V_G      /* 1-Data 2-Vcc 3-Gnd */
+
 
 
 /*
@@ -531,12 +557,25 @@
 
 
 /*
- *  DS18B20 - OneWire temperature sensor 
+ *  DS18B20 - OneWire temperature sensor
+ *  - uncomment to enable
+ *  - also enable ONEWIRE_PROBES or ONEWIRE_IO_PIN (see section 'Busses')
+ *  - please see UI_ROUND_DS18B20
+ */
+
+//#define SW_DS18B20
+
+
+/*
+ *  DS18S20 - OneWire temperature sensor
+ *  - DS18S20_HIGHRES: enable high resolution (0.01�C)
+ *    normal resolution is 0.5�C
  *  - uncomment to enable
  *  - also enable ONEWIRE_PROBES or ONEWIRE_IO_PIN (see section 'Busses')
  */
 
-//#define SW_DS18B20
+//#define SW_DS18S20
+//#define DS18S20_HIGHRES       /* high resolution (0.01�C) */
 
 
 /*
@@ -667,7 +706,7 @@
 
 /*
  *  show additional info for a possible potentiometer/trimpot
- *  - shows sum of both resistors and ratio of first resistor in %
+ *  - shows sum of both resistors and ratios in %
  *  - uncomment to enable
  */
 
@@ -680,6 +719,14 @@
  */ 
 
 #define SW_C_VLOSS
+
+
+/*
+ *  photodiode check
+ *  - uncomment to enable
+ */
+
+//#define SW_PHOTODIODE
 
 
 
@@ -742,6 +789,7 @@
 /*
  *  Language of user interface. Available languages:
  *  - English (default)
+ *  - Brazilian Portuguese
  *  - Czech (based on ISO 8859-1)
  *  - Czech 2 (with Czech characters based on ISO 8859-2)
  *  - Danish
@@ -755,6 +803,7 @@
  */
 
 #define UI_ENGLISH
+//#define UI_BRAZILIAN
 //#define UI_CZECH
 //#define UI_CZECH_2
 //#define UI_DANISH
@@ -934,6 +983,15 @@
 
 
 /*
+ *  DS18B20/DS18S20/DHTXX: display sensor symbol
+ *  - requires component symbols (SW_SYMBOLS) to be enabled
+ *  - uncomment to enable
+ */
+
+//#define UI_ONEWIRE
+
+
+/*
  *  disable text based pinout for 3-pin semiconductors
  *  - requires component symbols (SW_SYMBOLS) to be enabled
  *  - uncomment to enable
@@ -951,15 +1009,32 @@
 
 
 /*
+ *  battery status: display icon
+ *  - requires font with additional characters (check font!)
+ *  - not available for HD44780 and ST7036 based displays
+ *  - can't be used with LCD_VT100
+ *  - uncomment to enable
+ */
+
+//#define UI_BATTERY
+
+
+/*
+ *  battery status: display in last line after showing probing result
+ *  - uncomment to enable
+ */
+
+//#define UI_BATTERY_LASTLINE
+
+
+/*
  *  display probe IDs using reversed colors
- *  - requires font with additional characters
- *  - temporary option UI_PROBE_REVERSED_X for reversed 'x' as long
- *    as not all fonts include this character (check font!)
+ *  - requires font with additional characters (check font!)
+ *  - not available for HD44780 and ST7036 based displays
  *  - uncomment to enable
  */
 
 //#define UI_PROBE_REVERSED
-//#define UI_PROBE_REVERSED_X
 
 
 /*
@@ -970,7 +1045,7 @@
  *    (COLOR_PROBE_1, COLOR_PROBE_2 and COLOR_PROBE_3)
  */
 
-#define UI_PROBE_COLORS
+//#define UI_PROBE_COLORS
 
 
 /*
@@ -1002,6 +1077,16 @@
  */
 
 //#define UI_COLORED_VALUES
+
+
+/*
+ *  menues: scroll menu page-wise instead of item-wise
+ *  - speeds up menu operation with graphics displays,
+ *    especially high resolution color displays 
+ *  - uncomment to enable
+ */
+
+//#define UI_MENU_PAGEMODE
 
 
 /*
@@ -1099,7 +1184,7 @@
 /*
  *  Battery monitoring mode:
  *  - BAT_NONE     disable battery monitoring completely
- *  - BAT_DIRECT   direct measurement of battary voltage (< 5V)
+ *  - BAT_DIRECT   direct measurement of battery voltage (< 5V)
  *  - BAT_DIVIDER  measurement via voltage divider
  *  - uncomment one of the modes
  */
@@ -1361,7 +1446,7 @@
  *  ATmega 324P/324PA/644/644P/644PA/1284/1284P
  */
 
-#elif defined(__AVR_ATmega324P__) || defined(__AVR_ATmega644__) || defined(__AVR_ATmega1284__)
+#elif defined (__AVR_ATmega324P__) || defined (__AVR_ATmega644__) || defined (__AVR_ATmega1284__)
   #include "config_644.h"
 
 
@@ -1369,7 +1454,7 @@
  *  ATmega 640/1280/2560
  */
 
-#elif defined(__AVR_ATmega640__) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
+#elif defined (__AVR_ATmega640__) || defined (__AVR_ATmega1280__) || defined (__AVR_ATmega2560__)
   #include "config_1280.h"
 
 

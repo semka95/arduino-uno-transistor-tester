@@ -2,7 +2,7 @@
  *
  *   ATmega 640/1280/2560 specific global configuration, setup and settings
  *
- *   (c) 2012-2022 by Markus Reschke
+ *   (c) 2012-2023 by Markus Reschke
  *   based on code from Markus Frejek and Karl-Heinz Kübbeler
  *
  * ************************************************************************ */
@@ -22,7 +22,8 @@
  *  display module / controller
  *
  *  Please uncomment the package matching your LCD/OLED module and adjust
- *  settings. And comment out the default package if not used.
+ *  settings. And comment out the default package (ILI9481, 8 bit parallel)
+ *  if not used.
  *
  *  To uncomment, remove the enclosing "#if 0" and "#endif" or put
  *  a "//" in front of both. To comment out, remove the "//" in front
@@ -311,9 +312,9 @@
 #define LCD_RES          PB4            /* port pin used for /RES (optional) */
 #define LCD_CS           PB5            /* port pin used for /CS (optional) */
 #define LCD_DC           PB7            /* port pin used for D/C */
-#define LCD_SCK          PB1            /* port pin used for SCK */
-#define LCD_SDI          PB2            /* port pin used for SDI (data input) */
-//#define LCD_SDO          PB3            /* port pin used for SDO (data output) */
+#define LCD_SCL          PB1            /* port pin used for SCL */
+#define LCD_SDA          PB2            /* port pin used for DIN/SDA (data input) */
+//#define LCD_SDO          PB3            /* port pin used for DOUT/SDO (data output) */
 /* display settings */
 #define LCD_DOTS_X       320            /* number of horizontal dots */
 #define LCD_DOTS_Y       480            /* number of vertical dots */
@@ -440,6 +441,7 @@
 #define LCD_OFFSET_X     2              /* enable x offset of 2 or 4 dots */
 #define LCD_FLIP_X                      /* enable horizontal flip */
 #define LCD_FLIP_Y                      /* enable vertical flip */
+//#define LCD_COM_SEQ                     /* COM pin layout: sequential */
 #define LCD_CONTRAST     127            /* default contrast (0-255) */
 /* font and symbols: vertically aligned & flipped, bank-wise grouping */
 //#define FONT_6X8_VF                      /* 6x8 font */
@@ -486,6 +488,7 @@
 #define LCD_OFFSET_X     2              /* enable x offset of 2 or 4 dots */
 #define LCD_FLIP_X                      /* enable horizontal flip */
 #define LCD_FLIP_Y                      /* enable vertical flip */
+//#define LCD_COM_SEQ                     /* COM pin layout: sequential */
 #define LCD_CONTRAST     127            /* default contrast (0-255) */
 /* font and symbols: vertically aligned & flipped, bank-wise grouping */
 #define FONT_8X8_VF                     /* 8x8 font */
@@ -523,6 +526,7 @@
 #define LCD_OFFSET_X     2              /* enable x offset of 2 or 4 dots */
 #define LCD_FLIP_X                      /* enable horizontal flip */
 #define LCD_FLIP_Y                      /* enable vertical flip */
+//#define LCD_COM_SEQ                     /* COM pin layout: sequential */
 #define LCD_CONTRAST     127            /* default contrast (0-255) */
 /* font and symbols: vertically aligned & flipped, bank-wise grouping */
 #define FONT_8X8_VF                     /* 8x8 font */
@@ -558,6 +562,8 @@
 #define LCD_DOTS_Y       64             /* number of vertical dots */
 #define LCD_FLIP_X                      /* enable horizontal flip */
 #define LCD_FLIP_Y                      /* enable vertical flip */
+//#define LCD_COM_SEQ                     /* COM pin layout: sequential */
+//#define LCD_COM_REMAP                   /* COM pin mapping: reversed */
 #define LCD_CONTRAST     127            /* default contrast (0-255) */
 /* font and symbols: vertically aligned & flipped, bank-wise grouping */
 //#define FONT_6X8_VF                      /* 6x8 font */
@@ -602,6 +608,8 @@
 #define LCD_DOTS_Y       64             /* number of vertical dots */
 #define LCD_FLIP_X                      /* enable horizontal flip */
 #define LCD_FLIP_Y                      /* enable vertical flip */
+//#define LCD_COM_SEQ                     /* COM pin layout: sequential */
+//#define LCD_COM_REMAP                   /* COM pin mapping: reversed */
 #define LCD_CONTRAST     127            /* default contrast (0-255) */
 /* font and symbols: vertically aligned & flipped, bank-wise grouping */
 #define FONT_8X8_VF                     /* 8x8 font */
@@ -638,6 +646,8 @@
 #define LCD_DOTS_Y       64             /* number of vertical dots */
 #define LCD_FLIP_X                      /* enable horizontal flip */
 #define LCD_FLIP_Y                      /* enable vertical flip */
+//#define LCD_COM_SEQ                     /* COM pin layout: sequential */
+//#define LCD_COM_REMAP                   /* COM pin mapping: reversed */
 #define LCD_CONTRAST     127            /* default contrast (0-255) */
 /* font and symbols: vertically aligned & flipped, bank-wise grouping */
 #define FONT_8X8_VF                     /* 8x8 font */
@@ -746,6 +756,7 @@
 #define LCD_FLIP_Y                      /* enable vertical flip */
 #define LCD_START_Y      0              /* start line (0-63) */
 #define LCD_CONTRAST     22             /* default contrast (0-63) */
+//#define LCD_LONG_RESET                   /* long reset for NT7538 */
 /* font and symbols: vertically aligned & flipped, bank-wise grouping */
 //#define FONT_6X8_VF                      /* 6x8 font */
 #define FONT_8X8_VF                     /* 8x8 font */
@@ -1198,16 +1209,21 @@
  *  - /SS is set to output mode for hardware SPI but not used
  */
 
-/* for bit-bang and hardware SPI */
+/* SPI not set yet (for bit-bang or hardware SPI) */
 #ifndef SPI_PORT
-#define SPI_PORT         PORTB     /* port data register */
-#define SPI_DDR          DDRB      /* port data direction register */
-#define SPI_PIN          PINB      /* port input pins register */
-#define SPI_SCK          PB1       /* pin for SCK */
-#define SPI_MOSI         PB2       /* pin for MOSI */
-#define SPI_MISO         PB3       /* pin for MISO */
-#define SPI_SS           PB0       /* pin for /SS */
+  #define SPI_PORT       PORTB     /* port data register */
+  #define SPI_DDR        DDRB      /* port data direction register */
+  #define SPI_PIN        PINB      /* port input pins register */
+  #define SPI_SCK        PB1       /* pin for SCK */
+  #define SPI_MOSI       PB2       /* pin for MOSI */
+  #define SPI_MISO       PB3       /* pin for MISO */
+  #define SPI_SS         PB0       /* pin for /SS */
 #endif
+
+/* SPI_PIN/SPI_MISO not set yet (for bit-bang SPI with read support) */
+//#define SPI_PIN          PINB      /* port input pins register */
+//#define SPI_MISO         PB3       /* pin for MISO */
+
 
 
 /*
@@ -1217,13 +1233,13 @@
  *  - could be already set in display section
  */
 
-/* for bit-bang I2C */
+/* I2C not set yet (for bit-bang I2C) */
 #ifndef I2C_PORT
-#define I2C_PORT         PORTD     /* port data register */
-#define I2C_DDR          DDRD      /* port data direction register */
-#define I2C_PIN          PIND      /* port input pins register */
-#define I2C_SDA          PD1       /* pin for SDA */
-#define I2C_SCL          PD0       /* pin for SCL */
+  #define I2C_PORT       PORTD     /* port data register */
+  #define I2C_DDR        DDRD      /* port data direction register */
+  #define I2C_PIN        PIND      /* port input pins register */
+  #define I2C_SDA        PD1       /* pin for SDA */
+  #define I2C_SCL        PD0       /* pin for SCL */
 #endif
 
 
@@ -1307,6 +1323,15 @@
 
 
 /*
+ *  flashlight / general purpose switched output
+ */
+
+#define FLASHLIGHT_PORT  PORTA     /* port data register */
+#define FLASHLIGHT_DDR   DDRA      /* port data direction register */
+#define FLASHLIGHT_CTRL  PA2       /* control pin */
+
+
+/*
  *  relay for parallel cap (sampling ADC)
  *  - between TP1 & TP3
  *  - cap should have 10nF - 27nF
@@ -1354,7 +1379,7 @@
  *  ATmega 640
  */
 
-#if defined(__AVR_ATmega640__)
+#if defined (__AVR_ATmega640__)
 
   /* estimated internal resistance of port to GND (in 0.1 Ohms) */
   #define R_MCU_LOW           200  /* 209 */
@@ -1375,7 +1400,7 @@
  *  ATmega 1280
  */
 
-#elif defined(__AVR_ATmega1280__)
+#elif defined (__AVR_ATmega1280__)
 
   /* estimated internal resistance of port to GND (in 0.1 Ohms) */
   #define R_MCU_LOW           200  /* 209 */
@@ -1396,7 +1421,7 @@
  *  ATmega 2560
  */
 
-#elif defined(__AVR_ATmega2560__)
+#elif defined (__AVR_ATmega2560__)
 
   /* estimated internal resistance of port to GND (in 0.1 Ohms) */
   #define R_MCU_LOW           200  /* 209 */

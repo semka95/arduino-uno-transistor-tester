@@ -2,7 +2,7 @@
  *
  *   misc tools (hardware and software options)
  *
- *   (c) 2012-2022 by Markus Reschke
+ *   (c) 2012-2023 by Markus Reschke
  *
  * ************************************************************************ */
 
@@ -44,7 +44,8 @@
  *    PROBES_PWM         PWM signal
  *    PROBES_ESR         ESR measurement
  *    PROBES_RCL         monitoring RCL
- *    PROBES_RINGS       ring tester
+ *    PROBES_RINGTESTER  ring tester
+ *    PROBES_DIODE       diode
  */
 
 void ProbePinout(uint8_t Mode)
@@ -90,11 +91,20 @@ void ProbePinout(uint8_t Mode)
     #endif
 
     #if defined (HW_RING_TESTER) && defined (RING_TESTER_PROBES)
-    case PROBES_RINGS:
+    case PROBES_RINGTESTER:
       /* probe #1: Vcc / probe #2: pulse out / probe #3: Gnd */
       Char1 = '+';
       Char2 = 'p';
       Char3 = '-';
+      break;
+    #endif
+
+    #if defined (SW_PHOTODIODE)
+    case PROBES_DIODE:
+      /* probe #1: Anode / probe #3: Cathode */
+      Char1 = 'A';
+      Char2 = 0;
+      Char3 = 'C';
       break;
     #endif
   }
@@ -221,9 +231,9 @@ void Zener_Tool(void)
       {
         LCD_ClearLine2();               /* clear line #2 */
         #ifndef ZENER_DIVIDER_CUSTOM
-          Display_Value(U1, -2, 'V');   /* display current voltage */
+          Display_Value(U1, -2, 'V');   /* display current voltage (10mV) */
         #else
-          Display_Value(U1, -3, 'V');   /* display current voltage */
+          Display_Value(U1, -3, 'V');   /* display current voltage (1mV) */
         #endif
       }
 
@@ -484,7 +494,7 @@ void CheckZener(void)
 
 /*
  *  ESR tool
- *  - uses probe #1 (pos) and probe #3 (neg) 
+ *  - uses probe #1 (pos) and probe #3 (neg)
  */
 
 void ESR_Tool(void)
@@ -540,6 +550,7 @@ void ESR_Tool(void)
 
       LCD_ClearLine2();                 /* update line #2 */
       Display_EEString(Probing_str);    /* display: probing... */
+      Check.Found = COMP_NONE;          /* no component */
       MeasureCap(PROBE_1, PROBE_3, 0);  /* probe-1 = Vcc, probe-3 = Gnd */
       LCD_ClearLine2();                 /* update line #2 */
       
@@ -2228,7 +2239,7 @@ void LogicProbe(void)
 
 /*
  *  continuity check
- *  - uses probes #1 and #3
+ *  - uses probes #1 (pos) and #3 (neg)
  *  - requires buzzer
  */
 
@@ -2299,23 +2310,37 @@ void ContinuityCheck(void)
     {
       /* short: continuous beep */
 
+      #ifdef BUZZER_ACTIVE
       /* enable buzzer */
-      BUZZER_PORT |= (1 << BUZZER_CTRL);     /* set pin high */      
+      BUZZER_PORT |= (1 << BUZZER_CTRL);     /* set pin high */
+      #endif
+
+      #ifdef BUZZER_PASSIVE
+      PassiveBuzzer(BUZZER_FREQ_HIGH);       /* high frequency beep */
+      #endif
     }
     else if (U1 <= 700)                 /* 100-700mV */
     {
       /* pn junction: short beep */
 
+      #ifdef BUZZER_ACTIVE
       /* enable buzzer */
       BUZZER_PORT |= (1 << BUZZER_CTRL);     /* set pin high */
       Flag |= BEEP_SHORT;                    /* set flag */
+      #endif
+
+      #ifdef BUZZER_PASSIVE
+      PassiveBuzzer(BUZZER_FREQ_LOW);        /* low frequency beep */
+      #endif
     }
     else                                /* > 700mV */
     {
       /* something else or open circuit: no beep */
 
+      #ifdef BUZZER_ACTIVE
       /* disable buzzer */
       BUZZER_PORT &= ~(1 << BUZZER_CTRL);    /* set pin low */
+      #endif
     }
 
     /* display voltage */
@@ -2324,12 +2349,14 @@ void ContinuityCheck(void)
     /* this is also used as delay for the short beep */
     /* todo: do we need an additional delay for fast displays? */
 
+    #ifdef BUZZER_ACTIVE
     if (Flag & BEEP_SHORT)              /* short beep */
     {
       /* disable buzzer */
       BUZZER_PORT &= ~(1 << BUZZER_CTRL);    /* set pin low */
       Flag &= ~BEEP_SHORT;                   /* clear flag */
     }
+    #endif
 
 
     /*
@@ -2356,6 +2383,223 @@ void ContinuityCheck(void)
   /* local constants for Flag */
   #undef RUN_FLAG
   #undef BEEP_SHORT
+}
+
+#endif
+
+
+
+/* ************************************************************************
+ *   flashlight / general purpose switched output
+ * ************************************************************************ */
+
+
+#ifdef HW_FLASHLIGHT
+
+/*
+ *  flashlight / general purpose switched output
+ *  - toggles output pin between high and low
+ */
+
+void Flashlight(void)
+{
+  uint8_t           Flag;          /* status flag */
+
+
+  /*
+   *  toggle output
+   */
+
+  /* get current state */
+  Flag = FLASHLIGHT_PORT;          /* read port register */
+  Flag &= (1 << FLASHLIGHT_CTRL);  /* filter pin */
+
+  /* set output based on current state */
+  if (Flag)                   /* pin high */
+  {
+    /* toggle off */
+    FLASHLIGHT_PORT &= ~(1 << FLASHLIGHT_CTRL);   /* set pin low */
+  }
+  else                        /* pin low */
+  {
+    /* toggle on */
+    FLASHLIGHT_PORT |= (1 << FLASHLIGHT_CTRL);    /* set pin high */
+  }
+}
+
+#endif
+
+
+
+/* ************************************************************************
+ *   photodiode check
+ * ************************************************************************ */
+
+
+#ifdef SW_PHOTODIODE
+
+/*
+ *  check photodiode
+ *  - supports reverse-bias and no-bias mode
+ *  - uses probe #1 (anode) and probe #3 (cathode)
+ */
+
+void PhotodiodeCheck(void)
+{
+  uint8_t           Flag;               /* loop control */
+  uint8_t           Test;               /* user feedback */
+  uint16_t          U;                  /* measured voltage */
+  uint16_t          R = 0;              /* resistance (current shunt) */
+  uint32_t          I;                  /* current I_P */
+
+  /* local constants for Flag (bitfield) */
+  #define RUN_FLAG            0b00000001     /* run / otherwise end */
+  #define NO_BIAS             0b00000010     /* no-bias mode */
+  #define REVERSE_BIAS        0b00000100     /* reverse-bias mode */
+  #define UPDATE_BIAS         0b00001000     /* update bias mode */
+
+
+  /*
+   *  show info
+   */
+
+  LCD_Clear();
+  #ifdef UI_COLORED_TITLES
+    /* display: Photodiode */
+    Display_ColoredEEString(Photodiode_str, COLOR_TITLE);
+  #else
+    Display_EEString(Photodiode_str);        /* display: Photodiode */
+  #endif
+  ProbePinout(PROBES_DIODE);                 /* show probes used */
+
+
+  /*
+   *  init
+   */
+
+  UpdateProbes(PROBE_1, PROBE_2, PROBE_3);   /* update probes */
+
+  /* enter processing loop and set reverse-bias mode */
+  Flag = RUN_FLAG | REVERSE_BIAS | UPDATE_BIAS;
+
+
+  /*
+   *  processing loop
+   */
+
+  while (Flag > 0)
+  {
+    /*
+     *  set up bias mode
+     */
+
+    if (Flag & UPDATE_BIAS)        /* update requested */
+    {
+      /* probe #1: anode, probe #3: cathode */
+
+      if (Flag & REVERSE_BIAS)     /* reverse-bias mode */
+      {
+        /* safeguard when switching from no-bias mode */
+        ADC_DDR = 0;                    /* remove direct pull down */
+
+        /* set probes: Vcc -- Rl -- probe #3 / probe #1 -- Gnd */
+        R_PORT = Probes.Rl_3;           /* pull up probe #3 via Rl */
+        R_DDR = Probes.Rl_3;            /* enable pull-up resistor */
+        ADC_PORT = 0;                   /* pull down directly */
+        ADC_DDR = Probes.Pin_1;         /* enable Gnd for probe #1 */
+
+        /* current shunt: Rl + RiH */
+        R = (R_LOW * 10) + NV.RiH;      /* in 0.1 Ohms */
+      }
+      else                         /* no-bias mode */
+      {
+        /* set probes: probe #1 -- Rl -- Gnd / probe #3 -- Gnd */
+        R_PORT = 0;                     /* pull down ... */
+        R_DDR = Probes.Rl_1;            /* ... probe #1 via Rl */
+        ADC_PORT = 0;                   /* pull down directly */
+        ADC_DDR = Probes.Pin_3;         /* enable Gnd for probe #3 */
+
+        /* current shunt: Rl + RiL */
+        R = (R_LOW * 10) + NV.RiL;      /* in 0.1 Ohms */
+      }
+
+      Flag &= ~UPDATE_BIAS;                  /* clear flag */
+    }
+
+
+    /*
+     *  monitor current I_P
+     *  - measure voltage across current shunt Rl
+     *  - calculate current
+     *  - display current
+     */
+
+    /* measure voltage */
+    if (Flag & REVERSE_BIAS)       /* reverse-bias mode */
+    {
+      U = Cfg.Vcc - ReadU(Probes.Ch_3); /* voltage at probe #3 (cathode), in mV */
+    }
+    else                           /* no-bias mode */
+    {
+      U = ReadU(Probes.Ch_1);      /* voltage at probe #1 (anode), in mV */
+    }
+
+    /* calculate I_P (= U / R) */
+    I = U * 100000;                /* scale voltage to 0.01 µV */
+    I /= R;                        /* / R (in 0.1 Ohms) -> I in 0.1 µA */ 
+
+    /* display I_P */
+    LCD_ClearLine2();              /* line #2 */
+    if (Flag & REVERSE_BIAS)       /* reverse-bias mode */
+    {
+      Display_EEString_Space(ReverseBias_str);    /* display: rev */
+    }
+    else                           /* no-bias mode */
+    {
+      Display_EEString_Space(NoBias_str);         /* display: no */
+    }
+    Display_Value(I, -7, 'A');     /* display current */
+
+
+    /*
+     *  user feedback
+     */
+
+    /* check for user feedback and slow down update rate */
+    Test = TestKey(200, CHECK_KEY_TWICE | CHECK_BAT);
+
+    if (Test == KEY_SHORT)         /* short key press */
+    {
+      /* toggle bias mode */
+      if (Flag & REVERSE_BIAS)     /* in reverse-bias mode */
+      {
+        /* switch to no-bias mode */
+        Flag &= ~REVERSE_BIAS;               /* clear flag */
+        Flag |= NO_BIAS | UPDATE_BIAS;       /* set flag for new mode */
+      }
+      else                         /* in no-bias mode */
+      {
+        /* switch to reverse-bias mode */
+        Flag &= ~NO_BIAS;                    /* clear flag */
+        Flag |= REVERSE_BIAS | UPDATE_BIAS;  /* set flag for new mode */
+      }
+    }
+    else if (Test == KEY_TWICE)    /* two short key presses */
+    {
+      Flag = 0;                    /* end loop */
+    }
+  }
+
+
+  /*
+   *  clean up
+   */
+
+  /* local constants for Flag */
+  #undef RUN_FLAG
+  #undef NO_BIAS
+  #undef REVERSE_BIAS
+  #undef UPDATE_BIAS
 }
 
 #endif
