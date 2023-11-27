@@ -1385,7 +1385,7 @@
  *  - uncomment to enable
  */
 
-#define ADC_LARGE_BUFFER_CAP
+//#define ADC_LARGE_BUFFER_CAP
 
 
 

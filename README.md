@@ -19,6 +19,9 @@ I assembled tester using instruction from original project[^1], flashed firmware
   - 470K Ohm  x3
   - 680 Ohm   x3
 
+Remove this two components: pin 13 led and aref to ground capacitor
+![uno](./resources/uno.jpg)
+
 ### Firmware
 
 I took **Markus Reschke firmware version**[^2] and configured `config.h`, `config_328.h` and `Makefile`.
